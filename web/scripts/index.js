@@ -63,32 +63,27 @@ function submitForm (event) {
 	//* Exportar el registro
 	const xmlArrayCuentas = arrayCuentas.map(_cuenta => {
 		const xmlSubcuentas = _cuenta.subcuentas.map(_subcuenta => {
-			return `
-				<subcuenta>
-					<nombre>${_subcuenta.subcuenta}</nombre>
-					<parcial>${_subcuenta.parcial}</parcial>
-				</subcuenta>
-			`
+			return `<subcuenta>
+								<nombre>${_subcuenta.subcuenta}</nombre>
+								<parcial>${_subcuenta.parcial}</parcial>
+							</subcuenta>`
 		}).join('')
 
-		return `
-			<cuenta>
-				<nombre>${_cuenta.cuenta}</nombre>
-				<debe>${_cuenta.debe}</debe>
-				<haber>${_cuenta.haber}</haber>
-				${xmlSubcuentas}
-			</cuenta>
-		`
+		return `<cuenta>
+							<nombre>${_cuenta.cuenta}</nombre>
+							<debe>${_cuenta.debe}</debe>
+							<haber>${_cuenta.haber}</haber>
+							${xmlSubcuentas}
+						</cuenta>`
 	}).join('')
 
-	const xml = `
-		<xml version="1.1" ?>
-		<tabla>
-			<fecha>${fecha}</fecha>
-			${xmlArrayCuentas}
-			<detalle>${detalle}</detalle>
-		</tabla>
-	`
+	const xml = `<?xml version="1.0" encoding="utf-8"?>
+								<tabla>
+									<fecha>${fecha}</fecha>
+									${xmlArrayCuentas}
+									<detalle>${detalle}</detalle>
+								</tabla>`
+
 	downloadReg(xml)
 }
 
