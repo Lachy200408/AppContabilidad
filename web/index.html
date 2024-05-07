@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contabilidad</title>
+
+    <script type="module" src="./scripts/index.js" async></script>
+  </head>
+
+  <body>
+    <form action="/">
+      <fieldset>
+        <legend>
+          <label for="fecha">Fecha: </label>
+        </legend>
+        <input type="date" name="fecha" id="fecha" required />
+      </fieldset>
+
+      <!--* Las cuentas, subcuentas y saldos -->
+
+      <fieldset>
+        <legend>
+          <label for="cuenta-1">Cuentas</label>
+        </legend>
+
+        <datalist id="cuentas"></datalist>
+
+        <ul>
+          <li class="cuenta">
+            <input
+              type="text"
+              list="cuentas"
+              name="cuenta-1"
+              id="cuenta-1"
+              required
+            />
+            <label>
+              Debitando:
+              <input
+                type="number"
+                name="debe"
+                id="debe"
+                placeholder="$0.00"
+                step="0.01"
+              />
+            </label>
+            <label>
+              Acreditando:
+              <input
+                type="number"
+                name="haber"
+                id="haber"
+                placeholder="$0.00"
+                step="0.01"
+              />
+            </label>
+
+            <details>
+              <summary>Subcuentas</summary>
+              <ul></ul>
+
+              <button name="newSubCuenta" id="newSubCuenta">+</button>
+              <button name="removeSubCuenta" id="removeSubCuenta">-</button>
+            </details>
+          </li>
+          <li class="cuenta">
+            <input type="text" list="cuentas" required />
+            <label>
+              Debitando:
+              <input
+                type="number"
+                name="debe"
+                id="debe"
+                placeholder="$0.00"
+                step="0.01"
+              />
+            </label>
+            <label>
+              Acreditando:
+              <input
+                type="number"
+                name="haber"
+                id="haber"
+                placeholder="$0.00"
+                step="0.01"
+              />
+            </label>
+
+            <details>
+              <summary>Subcuentas</summary>
+              <ul></ul>
+
+              <button name="newSubCuenta" id="newSubCuenta">+</button>
+              <button name="removeSubCuenta" id="removeSubCuenta">-</button>
+            </details>
+          </li>
+        </ul>
+
+        <button name="newCuenta" id="newCuenta">+</button>
+        <button name="removeCuenta" id="removeCuenta">-</button>
+      </fieldset>
+
+      <!--* Detalles -->
+
+      <fieldset>
+        <legend>
+          <label for="detalle">Detalle: </label>
+        </legend>
+        <textarea name="detalle" id="detalle" rows="10" required></textarea>
+      </fieldset>
+
+      <button type="submit">Terminado</button>
+    </form>
+  </body>
+</html>
