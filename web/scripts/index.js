@@ -84,6 +84,7 @@ function submitForm (event) {
 									<detalle>${detalle}</detalle>
 								</tabla>`
 
+	console.log('Llega aqui');
 	downloadReg(xml)
 }
 
@@ -148,14 +149,20 @@ function modifyCuentas (event) {
 function handlerBalances (event) {
 	const input = event.target
 
-	//* Validar entrada
-	if (!input.value) input.value = ''
+	if (event.type === 'change') {
+		if (!input.value.includes(',')) input.value = String(input.value).concat(',00')
+	}
+	else {
 
-	//* Resetear el contiguo
-	let element = input.parentElement
-	if (element.innerText === 'Parcial: ') return
-	element = ((element.innerText === 'Acreditando: ')? element.previousElementSibling : element.nextElementSibling)
-	element = element.lastElementChild.value = ''
+		//* Validar entrada
+		if (!input.value) input.value = ''
+
+		//* Resetear el contiguo
+		let element = input.parentElement
+		if (element.innerText === 'Parcial: ') return
+		element = ((element.innerText === 'Acreditando: ')? element.previousElementSibling : element.nextElementSibling)
+		element = element.lastElementChild.value = ''
+	}
 }
 
 
@@ -170,6 +177,7 @@ function setListeners () {
 	//* Colocar listeners de inputs numericos
 	document.querySelectorAll('input[type="number"]').forEach((input) => {
 		input.addEventListener('input', handlerBalances, false)
+		input.addEventListener('change', handlerBalances, false)
 	})
 }
 
@@ -194,31 +202,38 @@ function resetListeners () {
 
 
 function validateDate (fecha) {
-	const ymd = fecha.split('-')
+	const ymd = fecha.split('-').map(num => parseInt(num))
+	const fechaActual = {
+		year: new Date().getFullYear(),
+		month: new Date().getMonth()+1,
+		day: new Date().getDate()
+	}
 	const resultado = {
 		year: '',
 		month: '',
 		day: ''
 	}
 
-	if (parseInt(ymd[0]) < 2000 ||
-			parseInt(ymd[0]) > 2024) resultado.year = 'El año está incorrecto'
+	if (ymd[0] < 2000 ||
+			ymd[0] > fechaActual.year) resultado.year = 'El año está incorrecto'
 	else resultado.year = 'ok'
 
-	if (parseInt(ymd[1]) > 12 ||
-			parseInt(ymd[1]) < 1) resultado.month = 'El mes está incorrecto'
+	if (ymd[1] > 12 ||
+			ymd[1] < 1 ||
+			ymd[1] > fechaActual.month) resultado.month = 'El mes está incorrecto'
 	else resultado.month = 'ok'
 
-	if (parseInt(ymd[2]) > 31 ||
-			parseInt(ymd[2]) < 1 ||
-			(parseInt(ymd[2]) > 28 && parseInt(ymd[1]) !== 2) || //* Febrero
-			(parseInt(ymd[2]) > 30 && parseInt(ymd[1]) !== 1) ||
-			(parseInt(ymd[2]) > 30 && parseInt(ymd[1]) !== 3) ||
-			(parseInt(ymd[2]) > 30 && parseInt(ymd[1]) !== 5) ||
-			(parseInt(ymd[2]) > 30 && parseInt(ymd[1]) !== 7) ||
-			(parseInt(ymd[2]) > 30 && parseInt(ymd[1]) !== 8) ||
-			(parseInt(ymd[2]) > 30 && parseInt(ymd[1]) !== 10) ||
-			(parseInt(ymd[2]) > 30 && parseInt(ymd[1]) !== 12)) resultado.day = 'El día está incorrecto'
+	if (ymd[2] > 31 ||
+			ymd[2] < 1 ||
+			(ymd[2] > 28 && ymd[1] !== 2) || //* Febrero
+			(ymd[2] > 30 && ymd[1] !== 1) ||
+			(ymd[2] > 30 && ymd[1] !== 3) ||
+			(ymd[2] > 30 && ymd[1] !== 5) ||
+			(ymd[2] > 30 && ymd[1] !== 7) ||
+			(ymd[2] > 30 && ymd[1] !== 8) ||
+			(ymd[2] > 30 && ymd[1] !== 10) ||
+			(ymd[2] > 30 && ymd[1] !== 12) ||
+			ymd[2] > fechaActual.day) resultado.day = 'El día está incorrecto'
 	else resultado.day = 'ok'
 
 	return resultado
@@ -250,6 +265,8 @@ let cantReg = 1
 function downloadReg (text, fileName = 'Sin-titulo') {
 	const blob = new Blob([text], { type: 'text/plain' })
 	const url = URL.createObjectURL(blob)
+
+	console.log(text);
 
 	const a = document.createElement('a')
 	a.href = url
