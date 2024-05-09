@@ -1,6 +1,6 @@
 //* Funciones de validacion
 
-export function validateDate(fecha) {
+function validateDate(fecha) {
   const ymd = fecha.split("-").map((num) => parseInt(num))
   
 	const fechaActual = {
@@ -26,7 +26,7 @@ export function validateDate(fecha) {
   return resultado
 }
 
-export function validateDetail(detalle) {
+function validateDetail(detalle) {
   const resultado = {
     malRedaccion: "",
     inconsistencia: "",
@@ -41,6 +41,19 @@ export function validateDetail(detalle) {
   return resultado
 }
 
-export function displayModal(text) {
+function displayModal(text) {
   alert("Ha ocurrido un problema en su formulario:\n" + text)
+}
+
+export function getNumErrors (item) {
+	let validacion
+	if (item.includes(' ')) validacion = validateDetail(item)
+	else validacion = validateDate(item)
+
+	let errores = Object.values(validacion).filter(
+    (message) => message !== "ok"
+  )
+
+	if (errores.length != 0) displayModal(errores.join(''))
+	return errores.length
 }
