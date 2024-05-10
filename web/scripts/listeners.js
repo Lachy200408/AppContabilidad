@@ -1,4 +1,4 @@
-import { modifyCuentas, handlerBalances } from "./handlers.js"
+import { modifyCuentas, handlerBalances, toggleHoja } from "./handlers.js"
 
 //* Funciones de listeners
 
@@ -12,6 +12,8 @@ export function setListeners() {
     input.addEventListener("input", handlerBalances, false)
     input.addEventListener("change", handlerBalances, false)
   })
+	//* Listener de boton de verHoja
+	document.querySelector('body>button').addEventListener('click', toggleHoja, false)
 }
 
 function removeListeners() {
@@ -23,6 +25,8 @@ function removeListeners() {
   document.querySelectorAll('input[type="number"]').forEach((input) => {
     input.removeEventListener("input", handlerBalances)
   })
+	//* Listener de boton de verHoja
+	document.querySelector('body>button').removeEventListener('click', toggleHoja)
 }
 
  export function resetListeners() {

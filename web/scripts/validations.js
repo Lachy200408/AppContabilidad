@@ -35,19 +35,47 @@ function validateDetail(detalle) {
   if (detalle.includes("egistrando")) resultado.malRedaccion = "ok"
   else resultado.malRedaccion = 'Los detalles están escritos incorrectamente. Debe iniciar con "Registrando".'
 
-  if (detalle.split(" ").length > 5) resultado.inconsistencia = "ok"
+  if (detalle.split(" ").length > 3) resultado.inconsistencia = "ok"
   else resultado.inconsistencia = "Argumenta un poco más los detalles."
 
   return resultado
+}
+
+function validateBalances(arrayBalances) {
+	const resultado = {
+		igualdad: ''
+	}
+
+	if (arrayBalances[0] === arrayBalances[1]) resultado.igualdad = 'ok'
+	else resultado.igualdad = 'El saldo del debe no cuadra con el haber.'
+
+	return resultado
+}
+
+function validateFolios(arrayCuentas) {
+	let cuentaFolio = arrayCuentas.map(_cuenta => {
+		return {cuenta: _cuenta.cuenta, folio: _cuenta.folio}
+	})
+
+	let resultado = { message: 'ok' }
+	cuentaFolio.forEach((obj, index) => {
+		if (cuentaFolio.length-1 === index) return
+
+		if (obj.folio === cuentaFolio[index+1].folio && obj.cuenta !== cuentaFolio[index+1].cuenta ) resultado.message = 'Los folios estan incorrectos.'
+	});
+
+	return resultado
 }
 
 function displayModal(text) {
   alert("Ha ocurrido un problema en su formulario:\n" + text)
 }
 
-export function getNumErrors (item) {
+export function getNumErrors (item, concepto) {
 	let validacion
-	if (item.includes(' ')) validacion = validateDetail(item)
+	if (concepto === 'detalle') validacion = validateDetail(item)
+	else if (concepto === 'saldos') validacion = validateBalances(item)
+	else if (concepto === 'folios') validacion = validateFolios(item)
 	else validacion = validateDate(item)
 
 	let errores = Object.values(validacion).filter(

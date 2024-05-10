@@ -12,62 +12,54 @@ export function modifyCuentas(event) {
     : event.target.parentElement.children[1]
 
   //* Html de los items
-  const htmlCuenta = `
-					<input
-						type="text"
-						list="cuentas"
-						required
-						class="col-lg-6 form-control form-text"
-					/>
-					<label class="form-label text-secondary">
-						Debitando:
-						<input
-							type="number"
-							name="debe"
-							id="debe"
-							placeholder="$0.00"
-							step="0.01"
-							class="col-md-3 form-control"
-						/>
-					</label>
-					<label class="form-label text-secondary">
-						Acreditando:
-						<input
-							type="number"
-							name="haber"
-							id="haber"
-							placeholder="$0.00"
-							step="0.01"
-							class="col-md-3 form-control"
-						/>
-					</label>
+  const htmlCuenta = `<input
+              type="text"
+              list="cuentas"
+              required
+              class="mb-2 form-control form-text"
+							placeholder="Cuenta..."
+            />
+						<label for="folio" class="col-md-3 mb-2 form-label text-secondary">
+							Folio:
+							<input type="number" name="folio" id="folio" required class="form-control" min="1" step="1">
+						</label>
+            <label class="col-md-3 mb-2 form-label text-secondary">
+              Debitando:
+              <input
+                type="number"
+                name="debe"
+                id="debe"
+                placeholder="$0.00"
+                step="0.01"
+                class="form-control"
+              />
+            </label>
+            <label class="col-md-3 mb-2 form-label text-secondary">
+              Acreditando:
+              <input
+                type="number"
+                name="haber"
+                id="haber"
+                placeholder="$0.00"
+                step="0.01"
+                class="form-control"
+              />
+            </label>
 
-					<details class="row-cols-2">
-						<summary class="form-text">Subcuentas</summary>
-						<ul class="col-12"></ul>
+            <details class="container-md">
+              <summary class="form-text">Subcuentas</summary>
+              <ul class="container-md"></ul>
 
-						<button
-							name="newSubCuenta"
-							id="newSubCuenta"
-							class="btn btn-secondary col-2 m-2"
-						>
-							+
-						</button>
-						<button
-							name="removeSubCuenta"
-							id="removeSubCuenta"
-							class="btn btn-secondary col-2 m-2"
-						>
-							-
-						</button>
-					</details>
-	`
+              <button name="newSubCuenta" id="newSubCuenta" class="btn btn-secondary px-4 m-2">+</button>
+              <button name="removeSubCuenta" id="removeSubCuenta" class="btn btn-secondary px-4 m-2">-</button>
+            </details>`
+						
   const htmlSubCuenta = `
-		<input type="text" list="subcuentas" required class="form-control"/>
+		<input type="text" list="subcuentas" required class="form-control" placeholder="Subcuenta..."/>
 
-		<label class="form-label">
+		<label class="form-label text-secondary">
 			Parcial: 
-			<input type="number" name="parcial" id="parcial" required class="form-control"/>
+			<input type="number" name="parcial" id="parcial" required class="form-control" placeholder="$0.00"/>
 		</label>
 	`
   const html = document.createElement("li")
@@ -104,4 +96,15 @@ export function handlerBalances(event) {
 			? element.previousElementSibling
 			: element.nextElementSibling
 	element = element.lastElementChild.value = ""
+}
+
+export function toggleHoja(event) {
+	const boton = event.target
+	boton.innerText = (boton.innerText === 'Ver Hoja')? 'Ver Formulario' : 'Ver Hoja'
+	
+	const vistas = [document.querySelector('body>form'), document.querySelector('body>table')]
+	vistas.forEach(vista => {
+		if (vista.classList.contains('d-none')) vista.classList.remove('d-none')
+		else vista.classList.add('d-none')
+	})
 }
