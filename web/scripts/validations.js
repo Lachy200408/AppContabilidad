@@ -67,6 +67,25 @@ function validateFolios(arrayCuentas) {
 	return resultado
 }
 
+function validateBalancesSub(arrayCuentas) {
+	const resultado = {
+		message: 'ok'
+	}
+
+	arrayCuentas.forEach(cuenta => {
+		const saldo = (cuenta.debe !== '$0.00')? parseFloat(cuenta.debe.slice(1)) : parseFloat(cuenta.haber.slice(1))
+
+		let totalParcial = 0
+		cuenta.subcuentas.forEach(subcuenta => {
+			totalParcial += parseFloat(subcuenta.parcial.slice(1))
+		})
+
+		if (saldo !== totalParcial && cuenta.subcuentas.length !== 0) resultado.message = `El saldo de las subcuentas de la cuenta: ${cuenta.cuenta} y el saldo de esta no son iguales.`
+	})
+
+	return resultado
+}
+
 function displayModal(text) {
   alert("Ha ocurrido un problema en su formulario:\n" + text)
 }
@@ -76,6 +95,7 @@ export function getNumErrors (item, concepto) {
 	if (concepto === 'detalle') validacion = validateDetail(item)
 	else if (concepto === 'saldos') validacion = validateBalances(item)
 	else if (concepto === 'folios') validacion = validateFolios(item)
+	else if (concepto === 'saldosSubcuentas') validacion = validateBalancesSub(item)
 	else validacion = validateDate(item)
 
 	let errores = Object.values(validacion).filter(

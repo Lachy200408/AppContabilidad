@@ -157,24 +157,24 @@
 		<table class="container-fluid table table-bordered d-none">
 			<tr>
 				<td colspan="6">
-					<script>
-						function LimpiarHoja() {
-							const arrayAux = [document.querySelector('body>table').children[0], document.querySelector('body>table').children[0],]
-							document.querySelector('body>table').innerHTML = ''
-							document.querySelector('body>table').append(arrayAux[0])
-							document.querySelector('body>table').append(arrayAux[1])
-						}
-					</script>
-					<button class="btn btn-warning" onclick="LimpiarHoja()">Limpiar tabla</button>
+					<button class="btn btn-warning">Limpiar tabla</button>
 				</td>
 			</tr>
 			<tr>
-				<td class="table-success col-1" style="min-width: 64px;">Fecha</td>
+				<td class="table-success col-1" style="min-width: 92px;">Fecha</td>
 				<td class="table-success col-4" style="min-width: 256px;">Cuenta y detalle</td>
-				<td class="table-success col-1" style="min-width: 64px;">Folio</td>
+				<td class="table-success col-1" style="min-width: 92px;">Folio</td>
 				<td class="table-success col-2" style="min-width: 128px;">Parcial</td>
 				<td class="table-success col-2" style="min-width: 128px;">Debe</td>
 				<td class="table-success col-2" style="min-width: 128px;">Haber</td>
+			</tr>
+			<tr>
+				<td class="table-success">TOTALES</td>
+				<td class="table-bordered"></td>
+				<td class="table-bordered"></td>
+				<td class="table-bordered"></td>
+				<td class="table-bordered">$0.00</td>
+				<td class="table-bordered">$0.00</td>
 			</tr>
 		</table>
   </body>

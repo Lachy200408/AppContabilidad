@@ -1,4 +1,6 @@
 import { resetListeners } from "./listeners.js"
+import { reset } from "./tableBody.js"
+import { calcTotales, resetRegGlobal } from "./index.js"
 
 export function modifyCuentas(event) {
   event.preventDefault()
@@ -109,4 +111,23 @@ export function toggleHoja(event) {
 	})
 
 	resetListeners()
+}
+
+export function limpiarHoja() {
+	const tabla = document.querySelector('body>table>tbody')
+	const arrayAux = [
+		tabla.children[0],
+		tabla.children[1],
+		tabla.lastElementChild
+	]
+	
+	tabla.innerHTML = ''
+	arrayAux.forEach(item => {
+		tabla.append(item)
+	})
+
+	reset()
+	resetRegGlobal()
+	sessionStorage.clear()
+	calcTotales()
 }
