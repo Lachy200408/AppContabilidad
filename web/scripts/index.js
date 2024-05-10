@@ -1,5 +1,6 @@
 import { setListeners } from "./listeners.js"
 import { getNumErrors } from "./validations.js"
+import { getArrayReg } from "./regs.js"
 
 window.onload = () => {
   const form = document.querySelector("body>form")
@@ -68,5 +69,8 @@ function submitForm(event) {
 	numErrors = getNumErrors(arrayCuentas, 'folios')
 	if (numErrors > 0) return
 
-  console.log(arrayCuentas);
+	getArrayReg(fecha, arrayCuentas, detalle).forEach(row => {
+  	document.querySelector('body>table').append(row)
+	})
+	alert('Se ha registrado exitosamente.')
 }

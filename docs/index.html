@@ -26,41 +26,36 @@
     <form action="/" class="container p-4">
       <fieldset class="m-4 justify-content-md-center">
         <legend>
-          <label class="form-label text-primary" for="fecha">Fecha: </label>
+          <label class="form-label text-primary" for="fecha">Fecha:</label>
         </legend>
-        <input
-          type="date"
-          name="fecha"
-          id="fecha"
-          required
-          class="form-control"
-        />
+        <input type="date" name="fecha" id="fecha" required class="form-control" placeholder="dd/mm/yy" />
       </fieldset>
 
       <!--* Las cuentas, subcuentas y saldos -->
 
       <fieldset class="m-4">
         <legend>
-          <label class="form-label text-primary" for="cuenta-1"
-            >Cuentas:
-          </label>
+          <label class="form-label text-primary" for="cuenta-1">Cuentas:</label>
         </legend>
 
         <datalist id="cuentas"></datalist>
 
         <ul class="container-md">
-          <li
-            class="cuenta row-cols-md-2 justify-content-md-around list-unstyled"
-          >
+          <li class="cuenta row list-unstyled">
             <input
               type="text"
               list="cuentas"
               name="cuenta-1"
               id="cuenta-1"
               required
-              class="col-lg-6 form-control form-text"
+              class="mb-2 form-control form-text"
+							placeholder="Cuenta..."
             />
-            <label class="form-label text-secondary">
+						<label for="folio" class="col-md-3 mb-2 form-label text-secondary">
+							Folio:
+							<input type="number" name="folio" id="folio" required class="form-control" min="1" step="1">
+						</label>
+            <label class="col-md-3 mb-2 form-label text-secondary">
               Debitando:
               <input
                 type="number"
@@ -68,10 +63,10 @@
                 id="debe"
                 placeholder="$0.00"
                 step="0.01"
-                class="col-md-3 form-control"
+                class="form-control"
               />
             </label>
-            <label class="form-label text-secondary">
+            <label class="col-md-3 mb-2 form-label text-secondary">
               Acreditando:
               <input
                 type="number"
@@ -79,40 +74,31 @@
                 id="haber"
                 placeholder="$0.00"
                 step="0.01"
-                class="col-md-3 form-control"
+                class="form-control"
               />
             </label>
 
-            <details class="row-cols-2">
+            <details class="container-md">
               <summary class="form-text">Subcuentas</summary>
-              <ul class="col-12"></ul>
+              <ul class="container-md"></ul>
 
-              <button
-                name="newSubCuenta"
-                id="newSubCuenta"
-                class="btn btn-secondary col-2 m-2"
-              >
-                +
-              </button>
-              <button
-                name="removeSubCuenta"
-                id="removeSubCuenta"
-                class="btn btn-secondary col-2 m-2"
-              >
-                -
-              </button>
+              <button name="newSubCuenta" id="newSubCuenta" class="btn btn-secondary px-4 m-2">+</button>
+              <button name="removeSubCuenta" id="removeSubCuenta" class="btn btn-secondary px-4 m-2">-</button>
             </details>
           </li>
-          <li
-            class="cuenta row-cols-md-2 justify-content-md-around list-unstyled"
-          >
+          <li class="cuenta row list-unstyled">
             <input
               type="text"
               list="cuentas"
               required
-              class="col-lg-6 form-control form-text"
+              class="mb-2 form-control form-text"
+							placeholder="Cuenta..."
             />
-            <label class="form-label text-secondary">
+						<label for="folio" class="col-md-3 mb-2 form-label text-secondary">
+							Folio:
+							<input type="number" name="folio" id="folio" required class="form-control" min="1" step="1">
+						</label>
+            <label class="col-md-3 mb-2 form-label text-secondary">
               Debitando:
               <input
                 type="number"
@@ -120,10 +106,10 @@
                 id="debe"
                 placeholder="$0.00"
                 step="0.01"
-                class="col-md-3 form-control"
+                class="form-control"
               />
             </label>
-            <label class="form-label text-secondary">
+            <label class="col-md-3 mb-2 form-label text-secondary">
               Acreditando:
               <input
                 type="number"
@@ -131,53 +117,29 @@
                 id="haber"
                 placeholder="$0.00"
                 step="0.01"
-                class="col-md-3 form-control"
+                class="form-control"
               />
             </label>
 
-            <details class="row-cols-2">
+            <details class="container-md">
               <summary class="form-text">Subcuentas</summary>
-              <ul class="col-12"></ul>
+              <ul class="container-md"></ul>
 
-              <button
-                name="newSubCuenta"
-                id="newSubCuenta"
-                class="btn btn-secondary col-2 m-2"
-              >
-                +
-              </button>
-              <button
-                name="removeSubCuenta"
-                id="removeSubCuenta"
-                class="btn btn-secondary col-2 m-2"
-              >
-                -
-              </button>
+              <button name="newSubCuenta" id="newSubCuenta" class="btn btn-secondary px-4 m-2">+</button>
+              <button name="removeSubCuenta" id="removeSubCuenta" class="btn btn-secondary px-4 m-2">-</button>
             </details>
           </li>
         </ul>
 
-        <button
-          name="newCuenta"
-          id="newCuenta"
-          class="btn btn-secondary col-2 m-2"
-        >
-          +
-        </button>
-        <button
-          name="removeCuenta"
-          id="removeCuenta"
-          class="btn btn-secondary col-2 m-2"
-        >
-          -
-        </button>
+        <button name="newCuenta" id="newCuenta" class="btn btn-secondary px-4 m-2">+</button>
+        <button name="removeCuenta" id="removeCuenta" class="btn btn-secondary px-4 m-2">-</button>
       </fieldset>
 
       <!--* Detalles -->
 
       <fieldset class="m-4">
         <legend>
-          <label class="form-label text-primary" for="detalle">Detalle: </label>
+          <label class="form-label text-primary" for="detalle">Detalle:</label>
         </legend>
         <textarea
           name="detalle"
@@ -185,12 +147,35 @@
           rows="10"
           required
           class="form-control"
+					placeholder="Registrando..."
         ></textarea>
       </fieldset>
 
-      <button type="submit" class="btn btn-primary col-6 d-block m-auto">
-        Terminado
-      </button>
+      <button type="submit" class="btn btn-primary col-6 d-block m-auto">Terminado</button>
     </form>
+		<button class="position-fixed top-0 end-0 btn btn-success m-2">Ver Hoja</button>
+		<table class="container-fluid table table-bordered d-none">
+			<tr>
+				<td colspan="6">
+					<script>
+						function LimpiarHoja() {
+							const arrayAux = [document.querySelector('body>table').children[0], document.querySelector('body>table').children[0],]
+							document.querySelector('body>table').innerHTML = ''
+							document.querySelector('body>table').append(arrayAux[0])
+							document.querySelector('body>table').append(arrayAux[1])
+						}
+					</script>
+					<button class="btn btn-warning" onclick="LimpiarHoja()">Limpiar tabla</button>
+				</td>
+			</tr>
+			<tr>
+				<td class="table-success col-1" style="min-width: 64px;">Fecha</td>
+				<td class="table-success col-4" style="min-width: 256px;">Cuenta y detalle</td>
+				<td class="table-success col-1" style="min-width: 64px;">Folio</td>
+				<td class="table-success col-2" style="min-width: 128px;">Parcial</td>
+				<td class="table-success col-2" style="min-width: 128px;">Debe</td>
+				<td class="table-success col-2" style="min-width: 128px;">Haber</td>
+			</tr>
+		</table>
   </body>
 </html>

@@ -107,4 +107,6 @@ export function toggleHoja(event) {
 		if (vista.classList.contains('d-none')) vista.classList.remove('d-none')
 		else vista.classList.add('d-none')
 	})
+
+	resetListeners()
 }
