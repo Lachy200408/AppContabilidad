@@ -124,6 +124,7 @@ export function limpiarHoja() {
 	})
 
 	globalObj.resetCantRegistros()
+	globalObj.resetCuentaFolio()
 	globalObj.resetRegGlobal()
 	sessionStorage.clear()
 	calcTotales()

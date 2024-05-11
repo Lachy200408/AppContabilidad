@@ -21,9 +21,6 @@ export const globalObj = {
 
 	//* Lista de cuentas y folios
 	cuentaFolio: [],
-	setCuentaFolio: (value) => {
-		globalObj.cuentaFolio = value
-	},
 	resetCuentaFolio: () => {
 		globalObj.cuentaFolio = []
 	}
