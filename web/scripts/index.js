@@ -1,13 +1,13 @@
 import { setListeners } from "./listeners.js"
 import { getNumErrors } from "./validations.js"
 import { getTableBody } from "./tableBody.js"
-
-let registroGlobal = []
+import { globalObj } from "./globalObj.js"
 
 window.onload = () => {
 	//* Recuperar la tabla cuando se recarga
 	if (sessionStorage.getItem('registroGlobal')) {
-		registroGlobal = []
+		globalObj.resetRegGlobal()
+
 		sessionStorage.getItem('registroGlobal').split(';').forEach(asientoString => {
 			let asiento = [], arrayFila = []
 			asientoString.split(',').forEach((value, index) => {
@@ -18,7 +18,7 @@ window.onload = () => {
 				}
 			})
 
-			registroGlobal.push([...asiento])
+			globalObj.registroGlobal.push([...asiento])
 
 			const tabla = document.querySelector('body>table>tbody')
 			let filaTotales = tabla.lastElementChild
@@ -36,7 +36,7 @@ window.onload = () => {
   setListeners()
 }
 
- export function submitForm(event) {
+export function submitForm(event) {
   event.preventDefault()
   const form = document.querySelector("body>form")
 
@@ -152,15 +152,15 @@ window.onload = () => {
 	alert('Se ha registrado exitosamente.')
 
 	//* Guardar el registro
-	registroGlobal.push([...asiento])
-	sessionStorage.setItem('registroGlobal', registroGlobal.join(';'))
+	globalObj.registroGlobal.push([...asiento])
+	sessionStorage.setItem('registroGlobal', globalObj.registroGlobal.join(';'))
 	calcTotales()
 }
 
 export function calcTotales() {
 	let debe = 0, haber = 0
 
-	registroGlobal.forEach(asiento => {
+	globalObj.registroGlobal.forEach(asiento => {
 		asiento.forEach(fila => {
 			debe += (fila[4] !== '')? parseFloat(fila[4].slice(1)) : 0
 			haber += (fila[5] !== '')? parseFloat(fila[5].slice(1)) : 0
@@ -170,8 +170,4 @@ export function calcTotales() {
 	const tabla = document.querySelector('body>table>tbody')
 	tabla.lastElementChild.children[4].innerHTML = '$'+debe.toFixed(2)
 	tabla.lastElementChild.children[5].innerHTML = '$'+haber.toFixed(2)
-}
-
-export function resetRegGlobal() {
-	registroGlobal = []
 }

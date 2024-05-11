@@ -1,6 +1,6 @@
 import { resetListeners } from "./listeners.js"
-import { reset } from "./tableBody.js"
-import { calcTotales, resetRegGlobal } from "./index.js"
+import { calcTotales } from "./index.js"
+import { globalObj } from "./globalObj.js"
 
 export function modifyCuentas(event) {
   event.preventDefault()
@@ -14,48 +14,49 @@ export function modifyCuentas(event) {
     : event.target.parentElement.children[1]
 
   //* Html de los items
-  const htmlCuenta = `<input
-              type="text"
-              list="cuentas"
-              required
-              class="mb-2 form-control form-text"
-							placeholder="Cuenta..."
-            />
-						<label for="folio" class="col-md-3 mb-2 form-label text-secondary">
-							Folio:
-							<input type="number" name="folio" id="folio" required class="form-control" min="1" step="1">
-						</label>
-            <label class="col-md-3 mb-2 form-label text-secondary">
-              Debitando:
-              <input
-                type="number"
-                name="debe"
-                id="debe"
-                placeholder="$0.00"
-                step="0.01"
-                class="form-control"
-              />
-            </label>
-            <label class="col-md-3 mb-2 form-label text-secondary">
-              Acreditando:
-              <input
-                type="number"
-                name="haber"
-                id="haber"
-                placeholder="$0.00"
-                step="0.01"
-                class="form-control"
-              />
-            </label>
+  const htmlCuenta = `
+		<input
+			type="text"
+			list="cuentas"
+			required
+			class="mb-2 form-control form-text"
+			placeholder="Cuenta..."
+		/>
+		<label for="folio" class="col-md-3 mb-2 form-label text-secondary">
+			Folio:
+			<input type="number" name="folio" id="folio" required class="form-control" min="1" step="1">
+		</label>
+		<label class="col-md-3 mb-2 form-label text-secondary">
+			Debitando:
+			<input
+				type="number"
+				name="debe"
+				id="debe"
+				placeholder="$0.00"
+				step="0.01"
+				class="form-control"
+			/>
+		</label>
+		<label class="col-md-3 mb-2 form-label text-secondary">
+			Acreditando:
+			<input
+				type="number"
+				name="haber"
+				id="haber"
+				placeholder="$0.00"
+				step="0.01"
+				class="form-control"
+			/>
+		</label>
 
-            <details class="container-md">
-              <summary class="form-text">Subcuentas</summary>
-              <ul class="container-md"></ul>
+		<details class="container-md">
+			<summary class="form-text">Subcuentas</summary>
+			<ul class="container-md"></ul>
 
-              <button name="newSubCuenta" id="newSubCuenta" class="btn btn-secondary px-4 m-2">+</button>
-              <button name="removeSubCuenta" id="removeSubCuenta" class="btn btn-secondary px-4 m-2">-</button>
-            </details>`
-						
+			<button name="newSubCuenta" id="newSubCuenta" class="btn btn-secondary px-4 m-2">+</button>
+			<button name="removeSubCuenta" id="removeSubCuenta" class="btn btn-secondary px-4 m-2">-</button>
+		</details>
+	`
   const htmlSubCuenta = `
 		<input type="text" list="subcuentas" required class="form-control" placeholder="Subcuenta..."/>
 
@@ -65,8 +66,8 @@ export function modifyCuentas(event) {
 		</label>
 	`
   const html = document.createElement("li")
-  html.className = itemKind + " list-unstyled"
-  html.innerHTML = isCuenta ? htmlCuenta : htmlSubCuenta
+  html.className = itemKind + isCuenta? " list-unstyled row" : " list-unstyled"
+  html.innerHTML = isCuenta? htmlCuenta : htmlSubCuenta
 
   if (event.target.innerText === "+") {
     list.appendChild(html)
@@ -83,20 +84,16 @@ export function modifyCuentas(event) {
   resetListeners()
 }
 
-let valor = ''
 export function handlerBalances(event) {
   const input = event.target  
 	
 	//* Validar entrada
-	if (input.value === "" && valor.length !== 1) input.value = valor
-	valor = input.value
+	if (input.value === "" && globalObj.valorInputNum.length !== 1) input.value = globalObj.valorInputNum
+	globalObj.setValorInputNum(input.value)
 	//* Resetear el contiguo
 	let element = input.parentElement
-	if (element.innerText === "Parcial:") return
-	element =
-		element.innerText === "Acreditando:"
-			? element.previousElementSibling
-			: element.nextElementSibling
+	if (element.innerText === "Parcial:" || element.innerText === "Folio:") return
+	element =	(element.innerText === "Acreditando:")? element.previousElementSibling : element.nextElementSibling
 	element = element.lastElementChild.value = ""
 }
 
@@ -126,8 +123,8 @@ export function limpiarHoja() {
 		tabla.append(item)
 	})
 
-	reset()
-	resetRegGlobal()
+	globalObj.resetCantRegistros()
+	globalObj.resetRegGlobal()
 	sessionStorage.clear()
 	calcTotales()
 }
