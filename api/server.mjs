@@ -10,7 +10,7 @@ server.listen(PORT, () => {
 })
 
 function handlerServer (req, res) {
-	res.setHeader('Access-Control-Allow-Origin', '*')
+	res.setHeader('Access-Control-Allow-Origin', 'https://lachy200408.github.io')
 
 	if (req.method === 'GET') handlerGet(req, res)
 	if (req.method === 'POST') handlerPost(req, res)
