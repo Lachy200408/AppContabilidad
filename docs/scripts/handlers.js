@@ -15,13 +15,10 @@ export function modifyCuentas(event) {
 
   //* Html de los items
   const htmlCuenta = `
-		<input
-			type="text"
-			list="cuentas"
-			required
-			class="mb-2 form-control form-text"
-			placeholder="Cuenta..."
-		/>
+		<label class="form-label text-primary">
+			Cuenta:
+			<input type="text" list="cuentas" required class="mb-2 form-control form-text" placeholder="Cuenta..."/>
+		</label>
 		<label for="folio" class="col-md-3 mb-2 form-label text-secondary">
 			Folio:
 			<input type="number" name="folio" id="folio" required class="form-control" min="1" step="1">
@@ -50,7 +47,7 @@ export function modifyCuentas(event) {
 		</label>
 
 		<details class="container-md">
-			<summary class="form-text">Subcuentas</summary>
+			<summary class="text-primary">Subcuentas</summary>
 			<ul class="container-md"></ul>
 
 			<button name="newSubCuenta" id="newSubCuenta" class="btn btn-secondary px-4 m-2">+</button>
@@ -66,7 +63,7 @@ export function modifyCuentas(event) {
 		</label>
 	`
   const html = document.createElement("li")
-  html.className = itemKind + isCuenta? " list-unstyled row" : " list-unstyled"
+  html.className = itemKind + isCuenta? " list-unstyled row mb-5" : " list-unstyled"
   html.innerHTML = isCuenta? htmlCuenta : htmlSubCuenta
 
   if (event.target.innerText === "+") {

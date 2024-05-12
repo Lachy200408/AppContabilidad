@@ -59,7 +59,7 @@ export function submitForm(event) {
 	//* Tomar valores de cuentas
   const arrayCuentas = Array.from(document.querySelector("body>form>fieldset>ul").children).map((li) => {
     const liArray = Array.from(li.children)
-    const cuenta = liArray[0].value
+    const cuenta = liArray[0].lastElementChild.value
 		const folio = +liArray[1].lastElementChild.value
 
     let debe = +liArray[2].lastElementChild.value,
@@ -68,10 +68,10 @@ export function submitForm(event) {
 		saldos[0] += debe
 		saldos[1] += haber
 
-		console.log((saldos[0]===debe), (saldos[1]===haber), saldos, debe, haber)
+		const prefix = [(saldos[0]===debe)? '$' : '', (saldos[1]===haber)? '$' : '']
 
-		debe = (debe !== 0)? ((saldos[0]===debe)? '$' : '') + parseFloat(debe).toFixed(2) : ''
-  	haber = (haber !== 0)? ((saldos[1]===haber)? '$' : '') + parseFloat(haber).toFixed(2) : ''
+		debe = (debe !== 0)? prefix[0] + parseFloat(debe).toFixed(2) : '0.00'
+  	haber = (haber !== 0)? prefix[1] + parseFloat(haber).toFixed(2) : '0.00'
     
 		const arraySubcuentas = Array.from(liArray[4].children[1].children).map((_li) => {
 			const subcuenta = _li.children[0].value
@@ -93,7 +93,7 @@ export function submitForm(event) {
   })
 
 	//* Validar los saldos
-	numErrors = getNumErrors(saldos, 'saldos')
+	numErrors = getNumErrors(arrayCuentas, 'saldos')
 	if (numErrors > 0) return
 
 	//* Validar folios
@@ -107,7 +107,7 @@ export function submitForm(event) {
 	//* Formar el registro
 	let asiento = []
 	arrayCuentas.forEach((cuenta, index) => {
-		const isDebt = cuenta.debe!==''
+		const isDebt = cuenta.debe !== '0.00'
 		let filaAsiento = new Array()
 
 		if (index===0) filaAsiento.push(fecha)

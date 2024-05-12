@@ -43,10 +43,19 @@ function validateDetail(detalle) {
   return resultado
 }
 
-function validateBalances(arrayBalances) {
+function validateBalances(arrayCuentas) {
 	const resultado = {
 		igualdad: ''
 	}
+
+	let arrayBalances = [0,0]
+	arrayCuentas.forEach(cuenta => {
+		const debe = (cuenta.debe.charAt(0)==='$')? parseFloat(cuenta.debe.slice(1)) : parseFloat(cuenta.debe)
+		const haber = (cuenta.haber.charAt(0)==='$')? parseFloat(cuenta.haber.slice(1)) : parseFloat(cuenta.haber)
+
+		arrayBalances[0] += debe
+		arrayBalances[1] += haber
+	})
 
 	if (arrayBalances[0] === arrayBalances[1]) resultado.igualdad = 'ok'
 	else resultado.igualdad = 'El saldo del debe no cuadra con el haber.'
@@ -72,6 +81,7 @@ function validateBalancesSub(arrayCuentas) {
 	arrayCuentas.forEach(cuenta => {
 		const debe = (cuenta.debe.charAt(0)==='$')? parseFloat(cuenta.debe.slice(1)) : parseFloat(cuenta.debe)
 		const haber = (cuenta.haber.charAt(0)==='$')? parseFloat(cuenta.haber.slice(1)) : parseFloat(cuenta.haber)
+
 		const saldo = (debe !== 0)? debe : haber
 
 		let totalParcial = 0

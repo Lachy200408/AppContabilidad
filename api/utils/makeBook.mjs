@@ -21,7 +21,7 @@ export async function makeBook (arrayOperaciones, callback) {
 	//* Creo la tabla
 	const tableRows = []
 	arrayOperaciones.forEach(operacion => {
-		tableRows.push(operacion)
+		tableRows.push([...operacion])
 	})
 
 	sheet.addTable({

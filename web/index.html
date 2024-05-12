@@ -20,6 +20,8 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+
+		<!--* SEO -->
   </head>
 
   <body class="justify-content-center">
@@ -35,22 +37,16 @@
 
       <fieldset class="m-4">
         <legend>
-          <label class="form-label text-primary" for="cuenta-1">Cuentas:</label>
         </legend>
 
         <datalist id="cuentas"></datalist>
 
         <ul class="container-md">
-          <li class="cuenta row list-unstyled">
-            <input
-              type="text"
-              list="cuentas"
-              name="cuenta-1"
-              id="cuenta-1"
-              required
-              class="mb-2 form-control form-text"
-							placeholder="Cuenta..."
-            />
+          <li class="cuenta row list-unstyled mb-5">
+          	<label class="form-label text-primary">
+							Cuenta:
+							<input type="text" list="cuentas" required class="mb-2 form-control form-text" placeholder="Cuenta..."/>
+						</label>
 						<label for="folio" class="col-md-3 mb-2 form-label text-secondary">
 							Folio:
 							<input type="number" name="folio" id="folio" required class="form-control" min="1" step="1">
@@ -79,21 +75,18 @@
             </label>
 
             <details class="container-md">
-              <summary class="form-text">Subcuentas</summary>
+              <summary class="text-primary">Subcuentas</summary>
               <ul class="container-md"></ul>
 
               <button name="newSubCuenta" id="newSubCuenta" class="btn btn-secondary px-4 m-2">+</button>
               <button name="removeSubCuenta" id="removeSubCuenta" class="btn btn-secondary px-4 m-2">-</button>
             </details>
           </li>
-          <li class="cuenta row list-unstyled">
-            <input
-              type="text"
-              list="cuentas"
-              required
-              class="mb-2 form-control form-text"
-							placeholder="Cuenta..."
-            />
+          <li class="cuenta row list-unstyled mb-5">
+            <label class="form-label text-primary">
+							Cuenta:
+							<input type="text" list="cuentas" required class="mb-2 form-control form-text" placeholder="Cuenta..."/>
+						</label>
 						<label for="folio" class="col-md-3 mb-2 form-label text-secondary">
 							Folio:
 							<input type="number" name="folio" id="folio" required class="form-control" min="1" step="1">
@@ -122,7 +115,7 @@
             </label>
 
             <details class="container-md">
-              <summary class="form-text">Subcuentas</summary>
+              <summary class="text-primary">Subcuentas</summary>
               <ul class="container-md"></ul>
 
               <button name="newSubCuenta" id="newSubCuenta" class="btn btn-secondary px-4 m-2">+</button>
