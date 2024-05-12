@@ -1,5 +1,6 @@
 import http from 'node:http'
-import { handlerGet } from './GET/handlerGet.js'
+import { handlerGet } from './GET/handlerGet.mjs'
+import { handlerPost } from './POST/handlerPost.mjs'
 
 const server = http.createServer(handlerServer)
 
@@ -9,6 +10,8 @@ server.listen(PORT, () => {
 })
 
 function handlerServer (req, res) {
+	res.setHeader('Access-Control-Allow-Origin', '*')
+
 	if (req.method === 'GET') handlerGet(req, res)
 	if (req.method === 'POST') handlerPost(req, res)
 }

@@ -65,8 +65,8 @@ export function submitForm(event) {
 		saldos[0] += debe
 		saldos[1] += haber
 
-		debe = (debe !== '')? '$' + parseFloat(debe).toFixed(2) : ''
-  	haber = (haber !== '')? '$' + parseFloat(haber).toFixed(2) : ''
+		debe = (debe !== '')? ((saldos[0]===0)? '$' : '') + parseFloat(debe).toFixed(2) : ''
+  	haber = (haber !== '')? ((saldos[1]===0)? '$' : '') + parseFloat(haber).toFixed(2) : ''
     
 		const arraySubcuentas = Array.from(liArray[4].children[1].children).map((_li) => {
 			const subcuenta = _li.children[0].value

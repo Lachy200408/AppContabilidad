@@ -129,3 +129,16 @@ export function limpiarHoja() {
 	sessionStorage.clear()
 	calcTotales()
 }
+
+export function descargarHoja() {
+	if (!globalObj.registroGlobal.length>0) return
+	
+	fetch('http://localhost:8080', {
+		method: 'POST',
+		body: globalObj.registroGlobal
+	})
+	.then(res => res.json())
+	.then(data => {
+		console.log(data)
+	})
+}
