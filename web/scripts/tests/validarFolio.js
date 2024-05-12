@@ -1,26 +1,25 @@
-export const globalObj = {
-	registroGlobal: [],
-	resetRegGlobal: () => {
-		globalObj.registroGlobal = []
+const jsonPrueba = [
+	{
+		cuenta: 'Efectivo en caja',
+		folio: 2
 	},
+	{
+		cuenta: 'Ventas',
+		folio: 3
+	}
+]
 
-	//* Valor de los inputs numéricos
-	valorInputNum: '',
-	setValorInputNum: (value) => {
-		globalObj.valorInputNum = value
-	},
-
-	//* Cantidad de operaciones realizadas
-	cantRegistros: 1,
-	iterCantRegistros: () => {
-		return globalObj.cantRegistros++
-	},
-	resetCantRegistros: () => {
-		globalObj.cantRegistros = 1
-	},
-
-	//* Lista de cuentas y folios
-	cuentaFolio: [],
+const globalObj = {
+	cuentaFolio: [
+		{
+			cuenta: 'Efectivo en banco',
+			folio: 1
+		},
+		{
+			cuenta: 'Efectivo en caja',
+			folio: 2
+		}
+	],
 	resetCuentaFolio: () => {
 		globalObj.cuentaFolio = []
 	},
@@ -28,6 +27,7 @@ export const globalObj = {
 		const arrayAux = [...arrayObj]
 		for (let i=0; i<arrayObj.length; i++) {
 			const par = arrayObj[i]
+
 			for (const j of arrayAux) {
 				if (par.cuenta===j.cuenta && par.folio!==j.folio) {
 					return `La cuenta ${par.cuenta} tiene dos folios distintos.`
@@ -51,8 +51,22 @@ export const globalObj = {
 				}
 			}
 			if (!hayCuenta) globalObj.cuentaFolio.push(par)
+
 			arrayAux.shift()
 		}
 		return 'ok'
 	}
 }
+
+function validateFolios(arrayCuentas) {
+	let aux = arrayCuentas.map(_cuenta => {
+		return {cuenta: _cuenta.cuenta, folio: _cuenta.folio}
+	})
+
+	let resultado = { message: globalObj.thereIsFolioRepeated(aux) }
+
+	return resultado
+}
+
+let prueba = validateFolios(jsonPrueba)
+console.log(prueba)

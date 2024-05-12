@@ -54,19 +54,12 @@ function validateBalances(arrayBalances) {
 	return resultado
 }
 
-//! Falta arreglar
 function validateFolios(arrayCuentas) {
 	let aux = arrayCuentas.map(_cuenta => {
 		return {cuenta: _cuenta.cuenta, folio: _cuenta.folio}
 	})
-	globalObj.cuentaFolio.push(aux)
 
-	let resultado = { message: 'ok' }
-	globalObj.cuentaFolio.forEach((obj, index) => {
-		if (globalObj.cuentaFolio.length-1 === index) return
-
-		if (obj.folio === globalObj.cuentaFolio[index+1].folio && obj.cuenta !== globalObj.cuentaFolio[index+1].cuenta ) resultado.message = 'Los folios estan incorrectos.'
-	})
+	let resultado = { message: globalObj.thereIsFolioRepeated(aux) }
 
 	return resultado
 }

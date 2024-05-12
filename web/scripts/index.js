@@ -108,9 +108,7 @@ export function submitForm(event) {
 		if (index===0) filaAsiento.push(fecha)
 		else filaAsiento.push('')
 		
-		if (isDebt) filaAsiento.push(cuenta.cuenta)
-		else filaAsiento.push(cuenta.cuenta)
-		
+		filaAsiento.push(cuenta.cuenta)
 		filaAsiento.push(cuenta.folio)
 		filaAsiento.push('')
 		
