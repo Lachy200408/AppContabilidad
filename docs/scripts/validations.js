@@ -70,7 +70,9 @@ function validateBalancesSub(arrayCuentas) {
 	}
 
 	arrayCuentas.forEach(cuenta => {
-		const saldo = (cuenta.debe !== '$0.00')? parseFloat(cuenta.debe.slice(1)) : parseFloat(cuenta.haber.slice(1))
+		const debe = (cuenta.debe.charAt(0)==='$')? parseFloat(cuenta.debe.slice(1)) : parseFloat(cuenta.debe)
+		const haber = (cuenta.haber.charAt(0)==='$')? parseFloat(cuenta.haber.slice(1)) : parseFloat(cuenta.haber)
+		const saldo = (debe !== 0)? debe : haber
 
 		let totalParcial = 0
 		cuenta.subcuentas.forEach(subcuenta => {
