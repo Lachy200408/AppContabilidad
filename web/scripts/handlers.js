@@ -126,6 +126,7 @@ export function limpiarHoja() {
 	globalObj.resetCantRegistros()
 	globalObj.resetCuentaFolio()
 	globalObj.resetRegGlobal()
+	globalObj.resetDebeHaber()
 	sessionStorage.clear()
 	calcTotales()
 }
@@ -133,12 +134,19 @@ export function limpiarHoja() {
 export function descargarHoja() {
 	if (!globalObj.registroGlobal.length>0) return
 	
-	fetch('http://localhost:8080', {
+	fetch('http://localhost:8080/downloadBook', {
 		method: 'POST',
-		body: globalObj.registroGlobal
+		body: globalObj.registroGlobal.join(';')
 	})
-	.then(res => res.json())
-	.then(data => {
-		console.log(data)
+	.then(res => res.blob())
+	.then(dataBlob => {
+		const url = URL.createObjectURL(dataBlob)
+
+		const a = document.createElement('a')
+		a.href = url
+		a.download = 'Diario.xlsx'
+		a.click()
+		
+		URL.revokeObjectURL(url)
 	})
 }

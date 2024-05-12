@@ -1,13 +1,13 @@
 import { setListeners } from "./listeners.js"
 import { getNumErrors } from "./validations.js"
 import { getTableBody } from "./tableBody.js"
-
-let registroGlobal = []
+import { globalObj } from "./globalObj.js"
 
 window.onload = () => {
 	//* Recuperar la tabla cuando se recarga
 	if (sessionStorage.getItem('registroGlobal')) {
-		registroGlobal = []
+		globalObj.resetRegGlobal()
+
 		sessionStorage.getItem('registroGlobal').split(';').forEach(asientoString => {
 			let asiento = [], arrayFila = []
 			asientoString.split(',').forEach((value, index) => {
@@ -18,7 +18,7 @@ window.onload = () => {
 				}
 			})
 
-			registroGlobal.push([...asiento])
+			globalObj.registroGlobal.push([...asiento])
 
 			const tabla = document.querySelector('body>table>tbody')
 			let filaTotales = tabla.lastElementChild
@@ -36,7 +36,7 @@ window.onload = () => {
   setListeners()
 }
 
- export function submitForm(event) {
+export function submitForm(event) {
   event.preventDefault()
   const form = document.querySelector("body>form")
 
@@ -51,7 +51,10 @@ window.onload = () => {
   const detalle = form.detalle.value
 
 	//* Variable para validar los saldos
-	let saldos = [0,0]
+	let saldos = [
+		globalObj.totalDebe,
+		globalObj.totalHaber
+	]
 
 	//* Tomar valores de cuentas
   const arrayCuentas = Array.from(document.querySelector("body>form>fieldset>ul").children).map((li) => {
@@ -65,8 +68,10 @@ window.onload = () => {
 		saldos[0] += debe
 		saldos[1] += haber
 
-		debe = (debe !== '')? '$' + parseFloat(debe).toFixed(2) : ''
-  	haber = (haber !== '')? '$' + parseFloat(haber).toFixed(2) : ''
+		console.log((saldos[0]===debe), (saldos[1]===haber), saldos, debe, haber)
+
+		debe = (debe !== 0)? ((saldos[0]===debe)? '$' : '') + parseFloat(debe).toFixed(2) : ''
+  	haber = (haber !== 0)? ((saldos[1]===haber)? '$' : '') + parseFloat(haber).toFixed(2) : ''
     
 		const arraySubcuentas = Array.from(liArray[4].children[1].children).map((_li) => {
 			const subcuenta = _li.children[0].value
@@ -102,15 +107,13 @@ window.onload = () => {
 	//* Formar el registro
 	let asiento = []
 	arrayCuentas.forEach((cuenta, index) => {
-		const isDebt = cuenta.debe!=='$0.00'
+		const isDebt = cuenta.debe!==''
 		let filaAsiento = new Array()
 
 		if (index===0) filaAsiento.push(fecha)
 		else filaAsiento.push('')
 		
-		if (isDebt) filaAsiento.push(cuenta.cuenta)
-		else filaAsiento.push(cuenta.cuenta)
-		
+		filaAsiento.push(cuenta.cuenta)
 		filaAsiento.push(cuenta.folio)
 		filaAsiento.push('')
 		
@@ -152,26 +155,24 @@ window.onload = () => {
 	alert('Se ha registrado exitosamente.')
 
 	//* Guardar el registro
-	registroGlobal.push([...asiento])
-	sessionStorage.setItem('registroGlobal', registroGlobal.join(';'))
+	globalObj.registroGlobal.push([...asiento])
+	sessionStorage.setItem('registroGlobal', globalObj.registroGlobal.join(';'))
 	calcTotales()
 }
 
 export function calcTotales() {
 	let debe = 0, haber = 0
 
-	registroGlobal.forEach(asiento => {
+	globalObj.registroGlobal.forEach(asiento => {
 		asiento.forEach(fila => {
-			debe += (fila[4] !== '')? parseFloat(fila[4].slice(1)) : 0
-			haber += (fila[5] !== '')? parseFloat(fila[5].slice(1)) : 0
+			debe += (fila[4] !== '')? (fila[4].charAt(0) === '$')? parseFloat(fila[4].slice(1)) : parseFloat(fila[4]) : 0
+			haber += (fila[5] !== '')? (fila[5].charAt(0) === '$')? parseFloat(fila[5].slice(1)) : parseFloat(fila[5]) : 0
 		})
 	})
+
+	globalObj.setDebeHaber(debe, haber)
 
 	const tabla = document.querySelector('body>table>tbody')
 	tabla.lastElementChild.children[4].innerHTML = '$'+debe.toFixed(2)
 	tabla.lastElementChild.children[5].innerHTML = '$'+haber.toFixed(2)
-}
-
-export function resetRegGlobal() {
-	registroGlobal = []
 }

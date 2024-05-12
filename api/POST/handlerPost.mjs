@@ -1,16 +1,5 @@
+import { downloadBook } from "./downloadBook/downloadBook.mjs"
+
 export function handlerPost (req, res) {
-	let body = ''
-	
-	req.on('data', chunk => {
-		body += chunk
-	})
-	req.on('end', () => {
-		body = body.toString()
-		console.log(body)
-
-		res.writeHead(200, {'Content-type': 'application/json; charset=utf-8'})
-		res.end(JSON.stringify(body))
-	})
+	if (req.url === '/downloadBook') downloadBook(req, res)
 }
-
-//! Lo proximo es hacer la conversion a excel

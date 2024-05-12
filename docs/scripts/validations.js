@@ -1,3 +1,5 @@
+import { globalObj } from "./globalObj.js"
+
 //* Funciones de validacion
 
 function validateDate(fecha) {
@@ -53,16 +55,11 @@ function validateBalances(arrayBalances) {
 }
 
 function validateFolios(arrayCuentas) {
-	let cuentaFolio = arrayCuentas.map(_cuenta => {
+	let aux = arrayCuentas.map(_cuenta => {
 		return {cuenta: _cuenta.cuenta, folio: _cuenta.folio}
 	})
 
-	let resultado = { message: 'ok' }
-	cuentaFolio.forEach((obj, index) => {
-		if (cuentaFolio.length-1 === index) return
-
-		if (obj.folio === cuentaFolio[index+1].folio && obj.cuenta !== cuentaFolio[index+1].cuenta ) resultado.message = 'Los folios estan incorrectos.'
-	});
+	let resultado = { message: globalObj.thereIsFolioRepeated(aux) }
 
 	return resultado
 }

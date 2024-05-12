@@ -51,7 +51,10 @@ export function submitForm(event) {
   const detalle = form.detalle.value
 
 	//* Variable para validar los saldos
-	let saldos = [0,0]
+	let saldos = [
+		globalObj.totalDebe,
+		globalObj.totalHaber
+	]
 
 	//* Tomar valores de cuentas
   const arrayCuentas = Array.from(document.querySelector("body>form>fieldset>ul").children).map((li) => {
@@ -65,8 +68,10 @@ export function submitForm(event) {
 		saldos[0] += debe
 		saldos[1] += haber
 
-		debe = (debe !== '')? ((saldos[0]===0)? '$' : '') + parseFloat(debe).toFixed(2) : ''
-  	haber = (haber !== '')? ((saldos[1]===0)? '$' : '') + parseFloat(haber).toFixed(2) : ''
+		console.log((saldos[0]===debe), (saldos[1]===haber), saldos, debe, haber)
+
+		debe = (debe !== 0)? ((saldos[0]===debe)? '$' : '') + parseFloat(debe).toFixed(2) : ''
+  	haber = (haber !== 0)? ((saldos[1]===haber)? '$' : '') + parseFloat(haber).toFixed(2) : ''
     
 		const arraySubcuentas = Array.from(liArray[4].children[1].children).map((_li) => {
 			const subcuenta = _li.children[0].value
@@ -102,7 +107,7 @@ export function submitForm(event) {
 	//* Formar el registro
 	let asiento = []
 	arrayCuentas.forEach((cuenta, index) => {
-		const isDebt = cuenta.debe!=='$0.00'
+		const isDebt = cuenta.debe!==''
 		let filaAsiento = new Array()
 
 		if (index===0) filaAsiento.push(fecha)
@@ -160,10 +165,12 @@ export function calcTotales() {
 
 	globalObj.registroGlobal.forEach(asiento => {
 		asiento.forEach(fila => {
-			debe += (fila[4] !== '')? parseFloat(fila[4].slice(1)) : 0
-			haber += (fila[5] !== '')? parseFloat(fila[5].slice(1)) : 0
+			debe += (fila[4] !== '')? (fila[4].charAt(0) === '$')? parseFloat(fila[4].slice(1)) : parseFloat(fila[4]) : 0
+			haber += (fila[5] !== '')? (fila[5].charAt(0) === '$')? parseFloat(fila[5].slice(1)) : parseFloat(fila[5]) : 0
 		})
 	})
+
+	globalObj.setDebeHaber(debe, haber)
 
 	const tabla = document.querySelector('body>table>tbody')
 	tabla.lastElementChild.children[4].innerHTML = '$'+debe.toFixed(2)
