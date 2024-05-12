@@ -19,7 +19,10 @@ export async function makeBook (arrayOperaciones, callback) {
 	const sheet = workbook.addWorksheet('Hoja - 1')
 
 	//* Creo la tabla
-	const tableRows = [...arrayOperaciones[0], ...arrayOperaciones[1]]
+	const tableRows = []
+	arrayOperaciones.forEach(operacion => {
+		tableRows.push(operacion)
+	})
 
 	sheet.addTable({
 		name: 'Tabla-1',

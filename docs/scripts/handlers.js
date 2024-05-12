@@ -134,7 +134,7 @@ export function limpiarHoja() {
 export function descargarHoja() {
 	if (!globalObj.registroGlobal.length>0) return
 	
-	fetch('http://localhost:8080/downloadBook', {
+	fetch('https://api-app-contabilidad.onrender.com/downloadBook', {
 		method: 'POST',
 		body: globalObj.registroGlobal.join(';')
 	})
