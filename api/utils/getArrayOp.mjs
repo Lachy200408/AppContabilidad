@@ -8,6 +8,8 @@ export function getArrayOp (body) {
 				arrayFila = []
 		asientoString.split(',').forEach(value => {
 			if (arrayFila.length===2 && value!=='') value = +value
+			if (arrayFila.length===4 && value!=='') value = +value
+			if (arrayFila.length===5 && value!=='') value = +value
 
 			arrayFila.push(value)
 			if (arrayFila.length === 6) {
