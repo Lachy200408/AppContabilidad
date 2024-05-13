@@ -1,7 +1,7 @@
 import { setListeners } from "./listeners.js"
 import { initValidations } from "./validations.js"
-import { getTableBody } from "./tableBody.js"
 import { globalObj } from "./globalObj.js"
+import { sortAndPrintTable } from "./sortAndPrintTable.js"
 
 window.onload = () => {
 	//* Recuperar la tabla cuando se recarga
@@ -19,13 +19,10 @@ window.onload = () => {
 			})
 
 			globalObj.registroGlobal.push([...asiento])
-
-			const tabla = document.querySelector('body>table>tbody'), filaTotales = tabla.lastElementChild
-			filaTotales.remove()
-			getTableBody(asiento).forEach(row => tabla.append(row))
-			tabla.append(filaTotales)
-			calcTotales()
 		})
+		
+		sortAndPrintTable([...globalObj.registroGlobal])
+		calcTotales()
 	}
 
   setListeners()
@@ -46,17 +43,15 @@ export function submitForm(event) {
 	//* Formar el registro
 	const asiento = globalObj.getAsiento(fecha, detalle, arrayCuentas)
 
-	//* Llevarlo a la tabla
-  const tabla = document.querySelector('body>table>tbody'), filaTotales = tabla.lastElementChild
-	filaTotales.remove()
-	getTableBody(asiento).forEach(row => tabla.append(row))
-	tabla.append(filaTotales)
-	alert('Se ha registrado exitosamente.')
-
 	//* Guardar el registro
 	globalObj.registroGlobal.push([...asiento])
 	sessionStorage.setItem('registroGlobal', globalObj.registroGlobal.join(';'))
 	calcTotales()
+
+	//* Ordenarlo y llevarlo a la tabla
+	sortAndPrintTable([...globalObj.registroGlobal], () => {
+		alert('Se ha registrado exitosamente.')
+	})
 }
 
 export function calcTotales() {
@@ -64,8 +59,8 @@ export function calcTotales() {
 
 	globalObj.registroGlobal.forEach(asiento => {
 		asiento.forEach(fila => {
-			debe += (fila[4] !== '')? fila[4] : 0
-			haber += (fila[5] !== '')? fila[5] : 0
+			debe += (fila[4] !== '')? +fila[4] : 0
+			haber += (fila[5] !== '')? +fila[5] : 0
 		})
 	})
 
