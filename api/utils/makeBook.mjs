@@ -21,7 +21,9 @@ export async function makeBook (arrayOperaciones, callback) {
 	//* Creo la tabla
 	const tableRows = []
 	arrayOperaciones.forEach(operacion => {
-		tableRows.push([...operacion])
+		operacion.forEach(fila => {
+			tableRows.push([...fila])
+		})
 	})
 
 	sheet.addTable({
@@ -29,16 +31,27 @@ export async function makeBook (arrayOperaciones, callback) {
 		ref: 'A1',
 		headerRow: true,
 		totalsRow: true,
+		style: {
+			theme: 'TableStyleLight4',
+			showLastColumn: true
+		},
 		columns: [
-			{header: 'Fecha', key: 'fecha', name: 'fecha', filterButton: true},
-			{header: 'Cuenta y detalle', key: 'cuentaydetalle', name: 'cuentaydetalle', filterButton: true},
-			{header: 'Folio', key: 'folio', name: 'folio', filterButton: true},
-			{header: 'Parcial', key: 'parcial', name: 'parcial', filterButton: true},
-			{header: 'Debe', key: 'debe', name: 'debe', filterButton: true, totalsRowFunction: 'sum'},
-			{header: 'Haber', key: 'haber', name: 'haber', filterButton: true, totalsRowFunction: 'sum'}
+			{header: 'Fecha', key: 'fecha', name: 'Fecha', filterButton: true},
+			{header: 'Cuenta y detalle', key: 'cuentaydetalle', name: 'Cuenta y detalle', filterButton: true},
+			{header: 'Folio', key: 'folio', name: 'Folio', filterButton: true},
+			{header: 'Parcial', key: 'parcial', name: 'Parcial', filterButton: true},
+			{header: 'Debe', key: 'debe', name: 'Debe', filterButton: true, totalsRowFunction: 'sum'},
+			{header: 'Haber', key: 'haber', name: 'Haber', filterButton: true, totalsRowFunction: 'sum'}
 		],
 		rows: tableRows
 	})
+
+	sheet.getColumn(1).width = 16
+	sheet.getColumn(2).width = 32
+	sheet.getColumn(3).width = 6
+	sheet.getColumn(4).width = 16
+	sheet.getColumn(5).width = 16
+	sheet.getColumn(6).width = 16
 	
 	callback(workbook)
 }
