@@ -50,11 +50,8 @@ function validateBalances(arrayCuentas) {
 
 	let arrayBalances = [0,0]
 	arrayCuentas.forEach(cuenta => {
-		const debe = (cuenta.debe.charAt(0)==='$')? parseFloat(cuenta.debe.slice(1)) : parseFloat(cuenta.debe)
-		const haber = (cuenta.haber.charAt(0)==='$')? parseFloat(cuenta.haber.slice(1)) : parseFloat(cuenta.haber)
-
-		arrayBalances[0] += debe
-		arrayBalances[1] += haber
+		arrayBalances[0] += cuenta.debe
+		arrayBalances[1] += cuenta.haber
 	})
 
 	if (arrayBalances[0] === arrayBalances[1]) resultado.igualdad = 'ok'
@@ -79,14 +76,11 @@ function validateBalancesSub(arrayCuentas) {
 	}
 
 	arrayCuentas.forEach(cuenta => {
-		const debe = (cuenta.debe.charAt(0)==='$')? parseFloat(cuenta.debe.slice(1)) : parseFloat(cuenta.debe)
-		const haber = (cuenta.haber.charAt(0)==='$')? parseFloat(cuenta.haber.slice(1)) : parseFloat(cuenta.haber)
-
-		const saldo = (debe !== 0)? debe : haber
+		const saldo = (cuenta.debe !== 0)? cuenta.debe : cuenta.haber
 
 		let totalParcial = 0
 		cuenta.subcuentas.forEach(subcuenta => {
-			totalParcial += parseFloat(subcuenta.parcial.slice(1))
+			totalParcial += subcuenta.parcial
 		})
 
 		if (saldo !== totalParcial && cuenta.subcuentas.length !== 0) resultado.message = `El saldo de las subcuentas de la cuenta: ${cuenta.cuenta} y el saldo de esta no son iguales.`
@@ -98,8 +92,8 @@ function validateBalancesSub(arrayCuentas) {
 function displayModal(text) {
   alert("Ha ocurrido un problema en su formulario:\n" + text)
 }
-
-export function getNumErrors (item, concepto) {
+ 
+function getErrors (item, concepto='') {
 	let validacion
 	if (concepto === 'detalle') validacion = validateDetail(item)
 	else if (concepto === 'saldos') validacion = validateBalances(item)
@@ -107,10 +101,22 @@ export function getNumErrors (item, concepto) {
 	else if (concepto === 'saldosSubcuentas') validacion = validateBalancesSub(item)
 	else validacion = validateDate(item)
 
-	let errores = Object.values(validacion).filter(
-    (message) => message !== "ok"
-  )
+	return validacion
+}
 
-	if (errores.length != 0) displayModal(errores.join(''))
-	return errores.length
+export function initValidations (fecha, detalle, arrayCuentas) {
+	let errors = [], validado = '', conceptos = ['', 'detalle', 'saldos', 'folios', 'saldosSubcuentas']
+
+	conceptos.forEach(concepto => {
+		if (concepto === '') validado = getErrors(fecha)
+		else if (concepto === 'detalle') validado = getErrors(detalle, concepto)
+		else validado = getErrors(arrayCuentas, concepto)
+
+		Object.values(validado).forEach(value => {
+			if (value!=='ok') errors.push(value)
+		})
+	})
+
+	if (errors.join('')!=='') displayModal(errors.join('\n'))
+	return errors.join('\n')
 }

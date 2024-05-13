@@ -1,5 +1,7 @@
 import { globalObj } from "./globalObj.js"
 
+//!Pendiente poner botones de eliminar registro
+
 export function getTableBody (registro) {
 	let arrayTr = []
 
@@ -14,6 +16,8 @@ export function getTableBody (registro) {
 			if (_index===1 && isDebt && fila[3]!=='') return cells(item, 3)
 			else if (_index===1 && fila[5]!=='') return cells(item, 4)
 			else if (_index===1 && !isDebt && fila[3]!=='') return cells(item, 5)
+			else if (_index===3 && item!=='') return cells('$'+item)
+			else if	((_index===4 || _index===5) && globalObj.cantRegistros===2 && item!=='') return cells('$'+item)
 			else return cells(item)
 		}).join('\n')
 

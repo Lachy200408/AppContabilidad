@@ -33,7 +33,7 @@ export const globalObj = {
 					return `Escribiste la cuenta ${par.cuenta} con dos folios distintos. Arréglalo.`
 				} 
 				else if (par.cuenta!==j.cuenta && par.folio===j.folio) {
-					return `Escribiste las cuentas ${par.cuenta} y ${j.cuenta} cons el mismo folio. Arréglalo.`
+					return `Escribiste las cuentas ${par.cuenta} y ${j.cuenta} con el mismo folio. Arréglalo.`
 				}
 			}
 
@@ -66,5 +66,65 @@ export const globalObj = {
 	resetDebeHaber: () => {
 		globalObj.totalDebe = 0
 		globalObj.totalHaber = 0
+	},
+
+	//* GetArrayCuentas
+	getArrayCuentas: () => {
+		return Array.from(document.querySelector("body>form>fieldset>ul").children).map((li) => {
+			const liArray = Array.from(li.children),
+						cuenta = liArray[0].lastElementChild.value,
+						folio = +liArray[1].lastElementChild.value
+
+			let debe = +liArray[2].lastElementChild.value,
+					haber = +liArray[3].lastElementChild.value
+			
+			const arraySubcuentas = Array.from(liArray[4].children[1].children).map((_li) => {
+				const subcuenta = _li.children[0].value,
+							parcial = +_li.children[1].firstElementChild.value
+
+				return {
+					subcuenta: subcuenta,
+					parcial: parcial,
+				}
+			})
+
+			return {
+				cuenta: cuenta,
+				folio: folio,
+				debe: debe,
+				haber: haber,
+				subcuentas: arraySubcuentas,
+    	}
+  	})
+	},
+
+	//* Get asiento
+	getAsiento: (fecha, detalle, arrayCuentas) => {
+		let asiento = []
+		arrayCuentas.forEach((cuenta, index) => {
+			const isDebt = cuenta.debe !== 0
+			let filaAsiento = []
+
+			filaAsiento.push(index===0? fecha : '')
+			filaAsiento.push(cuenta.cuenta)
+			filaAsiento.push(cuenta.folio)
+			filaAsiento.push('')
+			filaAsiento.push(isDebt? cuenta.debe : '')
+			filaAsiento.push(!isDebt? cuenta.haber : '')
+			asiento.push(filaAsiento)
+
+			cuenta.subcuentas.forEach(subcuenta => {
+				filaAsiento = []
+				filaAsiento.push('')
+				filaAsiento.push(subcuenta.subcuenta)
+				filaAsiento.push('')
+				filaAsiento.push(subcuenta.parcial)
+				filaAsiento.push('')
+				filaAsiento.push('')
+				asiento.push(filaAsiento)
+			})
+		})
+		asiento.push(['',detalle,'','','',''])
+		return asiento
 	}
 }
