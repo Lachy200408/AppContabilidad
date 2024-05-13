@@ -82,11 +82,11 @@ export function modifyCuentas(event) {
 }
 
 export function handlerBalances(event) {
-  const input = event.target  
+  const input = event.target, isFolio = input.parentElement.innerText==='Folio:'
 	
 	//* Validar entrada
-	if (input.value === "" && globalObj.valorInputNum.length !== 1) input.value = globalObj.valorInputNum
-	globalObj.setValorInputNum(input.value)
+	if (input.value === "" && globalObj.valorInputNum) input.value = (isFolio)? globalObj.valorInputNum : ''
+	if (!isFolio) globalObj.setValorInputNum(input.value)
 	//* Resetear el contiguo
 	let element = input.parentElement
 	if (element.innerText === "Parcial:" || element.innerText === "Folio:") return
