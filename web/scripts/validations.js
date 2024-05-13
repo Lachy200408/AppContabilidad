@@ -61,11 +61,9 @@ function validateBalances(arrayCuentas) {
 }
 
 function validateFolios(arrayCuentas) {
-	let aux = arrayCuentas.map(_cuenta => {
-		return {cuenta: _cuenta.cuenta, folio: _cuenta.folio}
-	})
+	const aux = arrayCuentas.map(_cuenta => ({cuenta: _cuenta.cuenta, folio: _cuenta.folio}))
 
-	let resultado = { message: globalObj.thereIsFolioRepeated(aux) }
+	let resultado = { message: globalObj.thereIsFolioRepeated([...aux]) }
 
 	return resultado
 }

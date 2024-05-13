@@ -26,6 +26,7 @@ export const globalObj = {
 	},
 	thereIsFolioRepeated: (arrayObj) => {
 		const arrayAux = [...arrayObj]
+
 		for (let i=0; i<arrayObj.length; i++) {
 			const par = arrayObj[i]
 			for (const j of arrayAux) {
