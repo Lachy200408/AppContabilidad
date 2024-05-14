@@ -5,7 +5,8 @@ import { globalObj } from "./globalObj.js"
 export function getTableBody (registro) {
 	let arrayTr = []
 
-	let firstLine = cells('') + cells(`Operacion No.${globalObj.iterCantRegistros()}`) + cells('') + cells('') + cells('') + cells('')
+	globalObj.removeAsiento.setClass()
+	let firstLine = cells(globalObj.removeAsiento.button.outerHTML) + cells(`Operacion No.${globalObj.iterCantRegistros()}`) + cells('') + cells('') + cells('') + cells('')
 	arrayTr.push(row(firstLine, true))
 
 	let isDebt = false

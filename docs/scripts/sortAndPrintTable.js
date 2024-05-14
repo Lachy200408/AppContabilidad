@@ -1,5 +1,6 @@
 import { globalObj } from "./globalObj.js"
 import { getTableBody } from "./tableBody.js"
+import { resetListeners } from "./listeners.js"
 
 export async function sortAndPrintTable (arrayFilas, callback=()=>{}) {
 	arrayFilas.sort((asientoA, asientoB) => {
@@ -35,6 +36,7 @@ export async function sortAndPrintTable (arrayFilas, callback=()=>{}) {
 	})
 
 	ordenarPonerEnTabla([...arrayFilas])
+	resetListeners()
 	callback()
 }
 

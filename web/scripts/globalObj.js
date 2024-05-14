@@ -1,3 +1,5 @@
+import { sortAndPrintTable } from "./sortAndPrintTable.js"
+
 export const globalObj = {
 	registroGlobal: [],
 	resetRegGlobal: () => {
@@ -127,5 +129,21 @@ export const globalObj = {
 		})
 		asiento.push(['',detalle,'','','',''])
 		return asiento
+	},
+
+	//* Boton de eliminar asiento
+	removeAsiento: {
+		button: document.createElement('button'),
+		setClass: function(){
+			this.button.className = 'btn btn-close p-2 mx-auto d-block'
+		},
+		handler: function(event){
+			const btn = event.target,
+						textOperacion = btn.parentElement.nextElementSibling.innerText,
+						numOp = textOperacion.charAt(textOperacion.length-1)
+			
+			globalObj.registroGlobal.splice(+numOp-1, 1)
+			sortAndPrintTable([...globalObj.registroGlobal])
+		}
 	}
 }
