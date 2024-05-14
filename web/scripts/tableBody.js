@@ -1,7 +1,5 @@
 import { globalObj } from "./globalObj.js"
 
-//!Pendiente poner botones de eliminar registro
-
 export function getTableBody (registro) {
 	let arrayTr = []
 
