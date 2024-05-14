@@ -86,7 +86,7 @@ export function handlerBalances(event) {
 	
 	//* Validar entrada
 	if (input.value === "" && isFolio) input.value = ''
-	if (input.value === "" && globalObj.valorInputNum && !isFolio) input.value = globalObj.valorInputNum
+	if (input.value === "" && globalObj.valorInputNum.length>=1 && !isFolio) input.value = globalObj.valorInputNum
 	if (!isFolio) globalObj.setValorInputNum(input.value)
 	//* Resetear el contiguo
 	let element = input.parentElement
