@@ -1,4 +1,5 @@
 import { sortAndPrintTable } from "./sortAndPrintTable.js"
+import { calcTotales } from "./index.js"
 
 export const globalObj = {
 	registroGlobal: [],
@@ -144,6 +145,7 @@ export const globalObj = {
 			
 			globalObj.registroGlobal.splice(+numOp-1, 1)
 			sortAndPrintTable([...globalObj.registroGlobal])
+			calcTotales()
 		}
 	}
 }
