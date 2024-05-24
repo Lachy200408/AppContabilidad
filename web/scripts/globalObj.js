@@ -1,27 +1,7 @@
-import { sortAndPrintTable } from "./sortAndPrintTable.js"
+import { sortAndPrintTable } from "./sortAsientos.js"
 import { calcTotales } from "./index.js"
 
 export const globalObj = {
-	registroGlobal: [],
-	resetRegGlobal: () => {
-		globalObj.registroGlobal = []
-	},
-
-	//* Valor de los inputs numéricos
-	valorInputNum: '',
-	setValorInputNum: (value) => {
-		globalObj.valorInputNum = value
-	},
-
-	//* Cantidad de operaciones realizadas
-	cantRegistros: 1,
-	iterCantRegistros: () => {
-		return globalObj.cantRegistros++
-	},
-	resetCantRegistros: () => {
-		globalObj.cantRegistros = 1
-	},
-
 	//* Lista de cuentas y folios
 	cuentaFolio: [],
 	resetCuentaFolio: () => {
@@ -133,6 +113,7 @@ export const globalObj = {
 	},
 
 	//* Boton de eliminar asiento
+	//! Arreglar urgente
 	removeAsiento: {
 		button: document.createElement('button'),
 		setClass: function(){
@@ -147,5 +128,13 @@ export const globalObj = {
 			sortAndPrintTable([...globalObj.registroGlobal])
 			calcTotales()
 		}
+	},
+
+	//* Reset all
+	resetAll: function(){
+		this.resetCantRegistros()
+		this.resetCuentaFolio()
+		this.resetDebeHaber()
+		this.resetRegGlobal()
 	}
 }

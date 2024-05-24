@@ -3,5 +3,7 @@ Pendientes{
 	- Hacer el sort de registros @
 	- Hacer	los botones de eliminar registro @
 	- Hacer el script que obtenga todas las cuentas del pdf y sus informaciones
+	- Arreglar el bug de los saldos con decimales en el parcial @
+	- Arreglar bug de la validacion de los saldos (Por encontrar)
 
 }

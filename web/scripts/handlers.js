@@ -1,7 +1,6 @@
 import { resetListeners } from "./listeners.js"
-import { calcTotales } from "./index.js"
-import { globalObj } from "./globalObj.js"
 
+//* Función que modifica los items de cuentas
 export function modifyCuentas(event) {
   event.preventDefault()
 
@@ -59,7 +58,7 @@ export function modifyCuentas(event) {
 
 		<label class="form-label text-secondary">
 			Parcial: 
-			<input type="number" name="parcial" id="parcial" required class="form-control" placeholder="$0.00"/>
+			<input type="number" name="parcial" id="parcial" required class="form-control" placeholder="$0.00" step="0.1"/>
 		</label>
 	`
   const html = document.createElement("li")
@@ -81,21 +80,17 @@ export function modifyCuentas(event) {
   resetListeners()
 }
 
+//* Función que no permite que se inserten un debe y un haber en la misma cuenta
 export function handlerBalances(event) {
-  const input = event.target, isFolio = input.parentElement.innerText==='Folio:'
+  const input = event.target
 	
-	//* Validar entrada
-	if (input.value === "" && isFolio) input.value = ''
-	else if (input.value === "" && globalObj.valorInputNum.length===1 && !isFolio) input.value = ''
-	else if (input.value === "" && globalObj.valorInputNum.length!==1 && !isFolio) input.value = globalObj.valorInputNum
-	if (!isFolio) globalObj.setValorInputNum(input.value)
-	//* Resetear el contiguo
 	let element = input.parentElement
 	if (element.innerText === "Parcial:" || element.innerText === "Folio:") return
 	element =	(element.innerText === "Acreditando:")? element.previousElementSibling : element.nextElementSibling
 	element = element.lastElementChild.value = ""
 }
 
+//! Se debe cambiar en un futuro
 export function toggleHoja(event) {
 	const boton = event.target
 	boton.innerText = (boton.innerText === 'Ver Hoja')? 'Ver Formulario' : 'Ver Hoja'
@@ -107,45 +102,4 @@ export function toggleHoja(event) {
 	})
 
 	resetListeners()
-}
-
-export function limpiarHoja() {
-	const tabla = document.querySelector('body>table>tbody')
-	const arrayAux = [
-		tabla.children[0],
-		tabla.children[1],
-		tabla.lastElementChild
-	]
-	
-	tabla.innerHTML = ''
-	arrayAux.forEach(item => {
-		tabla.append(item)
-	})
-
-	globalObj.resetCantRegistros()
-	globalObj.resetCuentaFolio()
-	globalObj.resetRegGlobal()
-	globalObj.resetDebeHaber()
-	sessionStorage.clear()
-	calcTotales()
-}
-
-export function descargarHoja() {
-	if (!globalObj.registroGlobal.length>0) return
-	
-	fetch('https://api-app-contabilidad.onrender.com/downloadBook', {
-		method: 'POST',
-		body: globalObj.registroGlobal.join(';')
-	})
-	.then(res => res.blob())
-	.then(dataBlob => {
-		const url = URL.createObjectURL(dataBlob)
-
-		const a = document.createElement('a')
-		a.href = url
-		a.download = 'Diario.xlsx'
-		a.click()
-		
-		URL.revokeObjectURL(url)
-	})
 }
