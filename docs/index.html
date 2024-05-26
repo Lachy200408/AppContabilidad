@@ -64,10 +64,10 @@
         <datalist id="cuentas"></datalist>
 
         <ul class="container-md">
-          <li class="cuenta row list-unstyled mb-5">
+          <li class="cuenta row list-unstyled mb-5 border-primary rounded-3 border-1 border-bottom border-end border-start border-top p-2">
           	<label class="form-label text-primary">
 							Cuenta:
-							<input type="text" list="cuentas" required class="mb-2 form-control form-text" placeholder="Cuenta..."/>
+							<input name="cuenta" type="text" list="cuentas" required class="mb-2 form-control form-text" placeholder="Cuenta..."/>
 						</label>
 						<label for="folio" class="col-md-3 mb-2 form-label text-secondary">
 							Folio:
@@ -104,7 +104,7 @@
               <button name="removeSubCuenta" id="removeSubCuenta" class="btn btn-secondary px-4 m-2">-</button>
             </details>
           </li>
-          <li class="cuenta row list-unstyled mb-5">
+          <li class="cuenta row list-unstyled mb-5 border-primary rounded-3 border-1 border-bottom border-end border-start border-top p-2">
             <label class="form-label text-primary">
 							Cuenta:
 							<input type="text" list="cuentas" required class="mb-2 form-control form-text" placeholder="Cuenta..."/>
@@ -168,12 +168,12 @@
 
       <button type="submit" class="btn btn-primary col-6 d-block m-auto">Terminado</button>
     </form>
-		<button class="position-fixed top-0 end-0 btn btn-success m-2">Ver Hoja</button>
+		<button class="position-fixed top-0 end-0 btn btn-success m-2 chHoja">Ver Hoja</button>
 		<table class="container-fluid table table-bordered d-none">
 			<tr>
 				<td colspan="6">
-					<button class="btn btn-warning mx-2">Limpiar tabla</button>
-					<button class="btn btn-info mx-2">Descargar</button>
+					<button class="btn btn-warning mx-2 clHoja">Limpiar tabla</button>
+					<button class="btn btn-info mx-2 dlHoja">Descargar</button>
 				</td>
 			</tr>
 			<tr>
