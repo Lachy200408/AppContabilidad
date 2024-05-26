@@ -60,7 +60,10 @@ class HandlerFunctions {
 			</details>
 		`
 		const htmlSubCuenta = `
-			<input type="text" list="subcuentas" required class="form-control" placeholder="Subcuenta..."/>
+			<label class="form-label text-secondary">
+				Subcuenta:
+				<input type="text" list="subcuentas" required class="form-control" placeholder="Subcuenta..."/>
+			</label>
 
 			<label class="form-label text-secondary">
 				Parcial: 
@@ -68,7 +71,7 @@ class HandlerFunctions {
 			</label>
 		`
 		const html = document.createElement("li")
-		html.className = itemKind + isCuenta? " list-unstyled row mb-5" : " list-unstyled"
+		html.className = itemKind + ((isCuenta)? " list-unstyled row mb-5 border-primary rounded-3 border-1 border-bottom border-end border-start border-top p-2" : " list-unstyled")
 		html.innerHTML = isCuenta? htmlCuenta : htmlSubCuenta
 
 		if (event.target.innerText === "+") {
@@ -137,11 +140,11 @@ class HandlerFunctions {
 	}
 
 	static descargarHoja() {
-		if (!globalObj.registroGlobal.length>0) return
+		if (!ArrayAsientos.get().length>0) return
 		
 		fetch('https://api-app-contabilidad.onrender.com/downloadBook', {
 			method: 'POST',
-			body: globalObj.registroGlobal.join(';')
+			body: ArrayAsientos.get().join(';')
 		})
 		.then(res => res.blob())
 		.then(dataBlob => {
