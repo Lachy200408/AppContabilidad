@@ -1,6 +1,6 @@
-import { modifyCuentas, handlerBalances, toggleHoja, limpiarHoja, descargarHoja } from "./handlers.js"
+import { modifyCuentas, handlerBalances, toggleHoja} from "./handlers.js"
 import { submitForm } from "./index.js"
-import { globalObj } from "./globalObj.js"
+import { HojaDiario } from "./HojaDiario.js"
 
 //* Funciones de listeners
 
@@ -19,13 +19,9 @@ export function setListeners() {
 	//* Colocar listener de boton de verHoja
 	document.querySelector('body>button').addEventListener('click', toggleHoja, false)
 	//* Colocar listener de boton de limpiarHoja
-	document.querySelector('body>table>tbody>tr>td>button:first-child').addEventListener('click', limpiarHoja, false)
+	document.querySelector('body>table>tbody>tr>td>button:first-child').addEventListener('click',  HojaDiario.limpiarHoja, false)
 	//* Colocar listener de boton de descargarHoja
-	document.querySelector('body>table>tbody>tr>td>button:nth-child(2)').addEventListener('click', descargarHoja, false)
-	//* Colocar listener de boton de removeAsiento
-	document.querySelectorAll('body>table>tbody button.btn-close')?.forEach(btn => {
-		btn.addEventListener('click', globalObj.removeAsiento.handler, false)
-	})
+	document.querySelector('body>table>tbody>tr>td>button:nth-child(2)').addEventListener('click', HojaDiario.descargarHoja, false)
 }
 
 function removeListeners() {
@@ -42,13 +38,9 @@ function removeListeners() {
 	//* Quitar listener de boton de verHoja
 	document.querySelector('body>button').removeEventListener('click', toggleHoja)
 	//* Quitar listener de boton de limpiarHoja
-	document.querySelector('body>table>tbody>tr>td>button:first-child').removeEventListener('click', limpiarHoja)
+	document.querySelector('body>table>tbody>tr>td>button:first-child').removeEventListener('click', HojaDiario.limpiarHoja)
 	//* Quitar listener de boton de descargarHoja
-	document.querySelector('body>table>tbody>tr>td>button:nth-child(2)').addEventListener('click', descargarHoja)
-	//* Remove listener de boton de removeAsiento
-	document.querySelectorAll('body>table>tbody button.btn-close')?.forEach(btn => {
-		btn.addEventListener('click', globalObj.removeAsiento.handler)
-	})
+	document.querySelector('body>table>tbody>tr>td>button:nth-child(2)').addEventListener('click', HojaDiario.descargarHoja)
 }
 
  export function resetListeners() {

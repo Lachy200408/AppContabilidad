@@ -1,11 +1,15 @@
-import { sortAsientos } from "./sortAsientos.js"
-import { getTableBody } from "./tableBody.js"
-import { globalObj } from "./globalObj.js"
+import { ArrayAsientos } from "./ArrayAsientos.js"
+import { Tbody } from "./Tbody.js"
 
 export class Tabla {
 	//* Elementos
-	static html = document.querySelector('body>table>tbody')
-	static customRows = [this.html.children[0], this.html.children[1], this.html.lastElementChild]
+	static html
+	static customRows
+
+	static init () {
+		this.html = document.querySelector('body>table>tbody')
+		this.customRows = [this.html?.children[0], this.html?.children[1], this.html?.lastElementChild]
+	}
 
 	//* Resetear valores
 	static reset () {
@@ -26,13 +30,11 @@ export class Tabla {
 	}
 
 	//* Insertar valores
-	static insert (array, callback) {
-		const sortedReg = sortAsientos([...array])
-		
+	static insert (array, callback=()=>{}) {
 		this.partialReset()
 
-		sortedReg.forEach(_asiento => {
-			getTableBody(_asiento).forEach(row => this.html.append(row))
+		array.forEach(_asiento => {
+			Tbody.get(_asiento).forEach(row => this.html.append(row))
 		})
 
 		this.html.append(this.customRows[2])
@@ -40,11 +42,13 @@ export class Tabla {
 	}
 
 	//* Calcular totales
-	static calcTotales(array) {
-		let debe = 0, haber = 0
+	static calcTotales() {
+		const {debe, haber} = ArrayAsientos.getBalances()
 
 		this.fila_totales.children[4].innerHTML = '$'+debe.toFixed(2)
 		this.fila_totales.children[5].innerHTML = '$'+haber.toFixed(2)
 	}
-
 }
+
+//* Event listener de calcular los totales
+window.addEventListener('regChange', Tabla.calcTotales, false)

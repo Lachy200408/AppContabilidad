@@ -1,13 +1,8 @@
-import { Tabla } from "./Tabla.js"
-import { globalObj } from "./globalObj.js"
-import { calcTotales } from "./index.js"
+import { Reset } from "./Reset.js"
 
 export class HojaDiario {
 	static limpiarHoja() {
-		Tabla.reset()
-		globalObj.resetAll()
-		sessionStorage.clear()
-		calcTotales()
+		Reset.hojaDiario()
 	}
 
 	static descargarHoja() {

@@ -1,19 +1,17 @@
-export class ArrayAsientos {
-	static global = []
+import { Array } from "./Array.js"
+
+export class ArrayAsientos extends Array {
+	//* Evento para calcular los totales
+	static regChange = new Event('regChange', {bubbles: false})
 
 	static reset () {
-		this.global = []
-	}
-
-	static set (array) {
-		this.global = array
-	}
-
-	static push (array) {
-		this.global.push([...array])
+		super.reset()
+		this.dispatchChange()
 	}
 
 	static sort () {
+		if (this.global.length <= 1) return
+
 		mesDias = {
 			1: 31,
 			2: 59,
@@ -46,5 +44,86 @@ export class ArrayAsientos {
 
 			return fechaA - fechaB
 		})
+	}
+
+	static insert (fecha, detalle, arrayCuentas) {
+		let asiento = []
+
+		arrayCuentas.forEach((cuenta, index) => {
+			const isDebt = cuenta.debe !== 0
+
+			asiento.push([
+				index===0? fecha : '',
+				cuenta.cuenta,
+				cuenta.folio,
+				'',
+				isDebt? cuenta.debe : '',
+				!isDebt? cuenta.haber : ''
+			])
+
+			cuenta.subcuentas.forEach(subcuenta => {
+				asiento.push([
+					'',
+					subcuenta.subcuenta,
+					'',
+					subcuenta.parcial,
+					'',
+					''
+				])
+			})
+		})
+		asiento.push(['',detalle,'','','',''])
+		
+		this.global.push([...asiento])
+
+		//* Ordenar el array
+		this.sort()
+
+		this.dispatchChange()
+	}
+
+	static fromSession (regstr) {
+		this.reset()
+
+		regstr.split(';').forEach(asientoString => {
+			let asiento = [], arrayFila = []
+			asientoString.split(',').forEach(value => {
+				arrayFila.push(value)
+				if (arrayFila.length === 6) {
+					asiento.push(arrayFila)
+					arrayFila = []
+				}
+			})
+
+			this.push([...asiento])
+		})
+
+		this.sort()
+		this.dispatchChange()
+	}
+
+	static remove (index) {
+		this.global.splice(index, 1)
+
+		this.dispatchChange()
+	}
+
+	static getBalances () {
+		let debe = 0, haber = 0
+
+		this.global.forEach(asiento => {
+			asiento.forEach(fila => {
+		
+				debe += +fila[4]
+				haber += +fila[5]
+			})
+		})
+
+		return {debe, haber}
+	}
+
+	static dispatchChange () {
+		//* Dispatch event
+		window.dispatchEvent(this.regChange)
 	}
 }

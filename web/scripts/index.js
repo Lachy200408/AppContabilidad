@@ -1,29 +1,16 @@
 import { setListeners } from "./listeners.js"
 import { initValidations } from "./validations.js"
-import { globalObj } from "./globalObj.js"
-import { sortAndPrintTable } from "./sortAsientos.js"
 import { Tabla } from "./Tabla.js"
+import { ArrayAsientos } from "./ArrayAsientos.js"
+import { Session } from "./Session.js"
+import { ArrayCuentas } from "./ArrayCuentas.js"
 
 window.onload = () => {
 	//* Recuperar la tabla cuando se recarga
-	if (sessionStorage.getItem('registroGlobal')) {
-		globalObj.resetRegGlobal()
-
-		sessionStorage.getItem('registroGlobal').split(';').forEach(asientoString => {
-			let asiento = [], arrayFila = []
-			asientoString.split(',').forEach(value => {
-				arrayFila.push(value)
-				if (arrayFila.length === 6) {
-					asiento.push(arrayFila)
-					arrayFila = []
-				}
-			})
-
-			globalObj.registroGlobal.push([...asiento])
-		})
-		
-		sortAndPrintTable([...globalObj.registroGlobal])
-		Tabla.calcTotales([...globalObj.registroGlobal])
+	const sessionReg = Session.regs.get()
+	if (sessionReg) {
+		ArrayAsientos.fromSession(sessionReg)
+		Tabla.insert([...ArrayAsientos.get()])
 	}
 
   setListeners()
@@ -34,21 +21,19 @@ export function submitForm(event) {
   const form = document.querySelector("body>form")
 
 	//* Tomar valores del formulario
-  const arrayCuentas = globalObj.getArrayCuentas()
-  const fecha = String(form.fecha.value)
+	ArrayCuentas.load()
+	const fecha = String(form.fecha.value)
   const detalle = form.detalle.value
 
 	//* Validar
-	if (initValidations(fecha, detalle, [...arrayCuentas])) return
+	if (initValidations(fecha, detalle, [...ArrayCuentas.get()])) return
 
 	//* Formar el registro
-	const asiento = globalObj.getAsiento(fecha, detalle, arrayCuentas)
+	ArrayAsientos.insert(fecha, detalle, [...ArrayCuentas.get()])
 
 	//* Guardar el registro
-	globalObj.registroGlobal.push([...asiento])
-	sessionStorage.setItem('registroGlobal', globalObj.registroGlobal.join(';'))
+	Session.regs.save(ArrayAsientos.get().join(';'))
 
 	//* Ordenarlo y llevarlo a la tabla
-	Tabla.insert([...globalObj.registroGlobal], () => alert('Se ha registrado exitosamente.'))
-	Tabla.calcTotales([...globalObj.registroGlobal])
+	Tabla.insert([...ArrayAsientos.get()], () => alert('Se ha registrado exitosamente.'))
 }
