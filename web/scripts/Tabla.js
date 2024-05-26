@@ -1,4 +1,3 @@
-import { ArrayAsientos } from "./ArrayAsientos.js"
 import { Tbody } from "./Tbody.js"
 
 export class Tabla {
@@ -6,9 +5,14 @@ export class Tabla {
 	static html
 	static customRows
 
+	//* Inicializar
 	static init () {
 		this.html = document.querySelector('body>table>tbody')
-		this.customRows = [this.html?.children[0], this.html?.children[1], this.html?.lastElementChild]
+		this.customRows = [this.html.children[0], this.html.children[1], this.html.lastElementChild]
+	}
+
+	static isNull () {
+		return !(this.html && this.customRows)
 	}
 
 	//* Resetear valores
@@ -30,25 +34,17 @@ export class Tabla {
 	}
 
 	//* Insertar valores
-	static insert (array, callback=()=>{}) {
+	static insert (array, balances) {
 		this.partialReset()
+		Tbody.numOp.reset()
 
 		array.forEach(_asiento => {
 			Tbody.get(_asiento).forEach(row => this.html.append(row))
 		})
 
+		//* Situar los totales
+		this.customRows[2].children[4].innerHTML = '$'+balances.debe.toFixed(2)
+		this.customRows[2].children[5].innerHTML = '$'+balances.haber.toFixed(2)
 		this.html.append(this.customRows[2])
-		callback()
-	}
-
-	//* Calcular totales
-	static calcTotales() {
-		const {debe, haber} = ArrayAsientos.getBalances()
-
-		this.fila_totales.children[4].innerHTML = '$'+debe.toFixed(2)
-		this.fila_totales.children[5].innerHTML = '$'+haber.toFixed(2)
 	}
 }
-
-//* Event listener de calcular los totales
-window.addEventListener('regChange', Tabla.calcTotales, false)

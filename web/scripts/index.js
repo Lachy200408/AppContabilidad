@@ -1,39 +1,30 @@
-import { setListeners } from "./listeners.js"
-import { initValidations } from "./validations.js"
+import { Listeners } from "./Listeners.js"
 import { Tabla } from "./Tabla.js"
 import { ArrayAsientos } from "./ArrayAsientos.js"
 import { Session } from "./Session.js"
-import { ArrayCuentas } from "./ArrayCuentas.js"
 
-window.onload = () => {
+//* Event listener de iniciar la aplicacion
+window.addEventListener('load', function () {
+	//* Inicializar la tabla
+	Tabla.init()
+
 	//* Recuperar la tabla cuando se recarga
 	const sessionReg = Session.regs.get()
-	if (sessionReg) {
-		ArrayAsientos.fromSession(sessionReg)
-		Tabla.insert([...ArrayAsientos.get()])
+	if (sessionReg) ArrayAsientos.fromSession(sessionReg)
+
+  Listeners.set()
+}, false)
+
+//* Event listener de refrescar la tabla
+window.addEventListener('regChange', function () {
+	if (!Tabla.isNull()) {
+		//* Refrescar la tabla
+		Tabla.insert([...ArrayAsientos.get()], ArrayAsientos.getBalances())
+		
+		//* Resetear los listeners
+		Listeners.reset()
+		
+		//* Guardar registro
+		Session.regs.save(ArrayAsientos.get().join(';'))
 	}
-
-  setListeners()
-}
-
-export function submitForm(event) {
-  event.preventDefault()
-  const form = document.querySelector("body>form")
-
-	//* Tomar valores del formulario
-	ArrayCuentas.load()
-	const fecha = String(form.fecha.value)
-  const detalle = form.detalle.value
-
-	//* Validar
-	if (initValidations(fecha, detalle, [...ArrayCuentas.get()])) return
-
-	//* Formar el registro
-	ArrayAsientos.insert(fecha, detalle, [...ArrayCuentas.get()])
-
-	//* Guardar el registro
-	Session.regs.save(ArrayAsientos.get().join(';'))
-
-	//* Ordenarlo y llevarlo a la tabla
-	Tabla.insert([...ArrayAsientos.get()], () => alert('Se ha registrado exitosamente.'))
-}
+}, false)

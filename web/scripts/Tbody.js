@@ -1,19 +1,8 @@
-import { ArrayAsientos } from "./ArrayAsientos.js"
-
 export class Tbody {
 	static rmBtn = {
 		html: document.createElement('button'),
 		initBtn: function () {
-			this.html.className = 'btn btn-close p-2 mx-auto d-block'
-			this.html.onclick = this.handler
-		},
-		handler: function (event) {
-				const btn = event.target,
-							textOperacion = btn.parentElement.nextElementSibling.innerText,
-							currentNumOp = textOperacion.charAt(textOperacion.length-1)
-				
-				ArrayAsientos.remove(currentNumOp-1)
-				Tbody.numOp.value--
+			this.html.className = 'btn btn-close p-2 mx-auto d-block rmBtn'
 		}
 	}
 
@@ -30,8 +19,8 @@ export class Tbody {
 		//* Insertar la fila de numero de operaciones
 		this.rmBtn.initBtn()
 
-		arrayTr.push(row(
-			cells(this.rmBtn.html.outerHTML) + cells(`Operacion No.${this.numOp.value++}`) + cells('') + cells('') + cells('') + cells(''),
+		arrayTr.push(this.row(
+			this.cells(this.rmBtn.html.outerHTML) + this.cells(`Operacion No.${++this.numOp.value}`) + this.cells('') + this.cells('') + this.cells('') + this.cells(''),
 			true
 		))
 
@@ -41,22 +30,22 @@ export class Tbody {
 
 			const rowBody = fila.map((item, _index) => {
 				//* Indentar las cuentas por naturaleza
-				if (_index===1 && isDebt && fila[3]!=='') return cells(item, 3)
-				else if (_index===1 && fila[5]!=='') return cells(item, 4)
-				else if (_index===1 && !isDebt && fila[3]!=='') return cells(item, 5)
+				if (_index===1 && isDebt && fila[3]!=='') return this.cells(item, 3)
+				else if (_index===1 && fila[5]!=='') return this.cells(item, 4)
+				else if (_index===1 && !isDebt && fila[3]!=='') return this.cells(item, 5)
 
 				//* Colocar el signo de peso
-				else if (_index===3 && item!=='') return cells('$'+item)
+				else if (_index===3 && item!=='') return this.cells('$'+item)
 				else if	((_index===4 || _index===5) &&
-									globalObj.cantRegistros===2 && 
+									this.numOp.value===1 && 
 									item!=='' && 
-									!(registro[0][4].includes('$') || registro[0][5].includes('$'))) return cells('$'+item)
+									!(registro[0][4].toString().includes('$') || registro[0][5].toString().includes('$'))) return this.cells('$'+item)
 
 				//* Caso default
-				else return cells(item)
+				else return this.cells(item)
 			}).join('\n')
 
-			arrayTr.push(row(rowBody))
+			arrayTr.push(this.row(rowBody))
 		})
 
 		return arrayTr

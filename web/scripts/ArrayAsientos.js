@@ -12,7 +12,7 @@ export class ArrayAsientos extends Array {
 	static sort () {
 		if (this.global.length <= 1) return
 
-		mesDias = {
+		const mesDias = {
 			1: 31,
 			2: 59,
 			3: 90,
