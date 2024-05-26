@@ -1,6 +1,6 @@
 import { Listeners } from "./Listeners.js"
 import { ArrayCuentas } from "./ArrayCuentas.js"
-import { Validations } from "./validations.js"
+import { Validations } from "./Validations.js"
 import { ArrayAsientos } from "./ArrayAsientos.js"
 import { Tbody } from "./Tbody.js"
 import { Reset } from "./Reset.js"

@@ -3,7 +3,7 @@ import { ArrayAsientos } from "./ArrayAsientos.js"
 import { ArrayCuentas } from "./ArrayCuentas.js"
 import { Session } from "./Session.js"
 import { Tbody } from "./Tbody.js"
-import { Validations } from "./validations.js"
+import { Validations } from "./Validations.js"
 
 export class Reset {
 	static hojaDiario () {
