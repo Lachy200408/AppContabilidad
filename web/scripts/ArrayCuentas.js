@@ -10,7 +10,7 @@ export class ArrayCuentas extends Array {
 						haber = +liArray[3].lastElementChild.value
 			
 			const arraySubcuentas = window.Array.from(liArray[4].children[1].children).map((_li) => {
-				const subcuenta = _li.children[0].value,
+				const subcuenta = _li.children[0].firstElementChild.value,
 							parcial = +_li.children[1].firstElementChild.value
 
 				return {
