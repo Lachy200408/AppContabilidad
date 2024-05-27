@@ -25,7 +25,7 @@ export class Tbody {
 		))
 
 		let isDebt = false
-		registro.forEach(fila => {
+		registro.forEach((fila, index) => {
 			isDebt = (fila[3]==='')? (fila[4]!=='') : isDebt
 
 			const rowBody = fila.map((item, _index) => {
@@ -39,7 +39,8 @@ export class Tbody {
 				else if	((_index===4 || _index===5) &&
 									this.numOp.value===1 && 
 									item!=='' && 
-									!(registro[0][4].toString().includes('$') || registro[0][5].toString().includes('$'))) return this.cells('$'+item)
+									!((_index===4 && registro[0][4]!=='' && index!=0) ||
+										(_index===5 && registro[0][5]!=='' && index!=0))) return this.cells('$'+item)
 
 				//* Caso default
 				else return this.cells(item)
