@@ -1,6 +1,8 @@
 import { Array } from "./Array.js"
 
 export class ArrayCuentas extends Array {
+	static global = []
+
 	static load () {
 		this.global = window.Array.from(document.querySelector("body>form>fieldset>ul").children).map((li) => {
 			const liArray = window.Array.from(li.children),

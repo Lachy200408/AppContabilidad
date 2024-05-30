@@ -1,6 +1,8 @@
 import { Array } from "./Array.js"
 
 export class ArrayAsientos extends Array {
+	static global = []
+
 	//* Evento para calcular los totales
 	static regChange = new Event('regChange', {bubbles: false})
 
