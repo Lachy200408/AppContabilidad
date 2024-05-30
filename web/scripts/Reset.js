@@ -3,7 +3,7 @@ import { ArrayAsientos } from "./ArrayAsientos.js"
 import { ArrayCuentas } from "./ArrayCuentas.js"
 import { Session } from "./Session.js"
 import { Tbody } from "./Tbody.js"
-import { Validations } from "./Validations.js"
+import { CuentaFolio } from "./CuentaFolio.js"
 
 export class Reset {
 	static hojaDiario () {
@@ -12,6 +12,6 @@ export class Reset {
 		ArrayAsientos.reset()
 		ArrayCuentas.reset()
 		Session.regs.reset()
-		Validations.cuentaFolio.reset()
+		CuentaFolio.reset()
 	}
 }
