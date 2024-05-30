@@ -1,6 +1,4 @@
 export class Array {
-	static global = []
-
 	static reset () {
 		this.global = []
 	}

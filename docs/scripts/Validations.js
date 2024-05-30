@@ -1,3 +1,5 @@
+import { CuentaFolio } from "./CuentaFolio.js"
+
 export class Validations {
 	static validateDate(fecha) {
 		const ymd = fecha.split("-").map((num) => parseInt(num)),
@@ -10,7 +12,7 @@ export class Validations {
 
 		if (ymd[0] < 2000 || ymd[0] > fechaActual.year) resultado.year = "El año está incorrecto"
 		if (ymd[1] > fechaActual.month && ymd[0] >= fechaActual.year) resultado.month = "El mes está incorrecto"
-		if (ymd[2] > fechaActual.day && ymd[1] >= fechaActual.month) resultado.day = "El día está incorrecto"
+		if (ymd[2] > fechaActual.day && ymd[1] >= fechaActual.month && ymd[0] >= fechaActual.year) resultado.day = "El día está incorrecto"
 
 		return resultado
 	}
@@ -38,11 +40,6 @@ export class Validations {
 		return resultado
 	}
 
-	static cuentaFolio = {
-		list: [],
-		reset: function () {this.list = []}
-	}
-
 	static validateFolios(arrayCuentas) {
 		const arrayPares = arrayCuentas.map(_cuenta => ({cuenta: _cuenta.cuenta, folio: _cuenta.folio})),
 					arrayAux =	[...arrayPares],
@@ -59,8 +56,7 @@ export class Validations {
 				}
 			}
 
-			let hayCuenta = false
-			for (const j of this.cuentaFolio.list) {
+			for (const j of CuentaFolio.get()) {
 				if (par.cuenta===j.cuenta && par.folio!==j.folio) {
 					resultado.message = `La cuenta ${par.cuenta} ya tiene el folio ${j.folio} en el diario.`
 				} 
@@ -68,11 +64,10 @@ export class Validations {
 					resultado.message = `La cuenta ${j.cuenta} ya tiene el folio ${j.folio} en el diario.`
 				}
 				else if (par.cuenta===j.cuenta && par.folio===j.folio) {
-					hayCuenta = true
 					break
 				}
 			}
-			if (!hayCuenta && resultado.message==='ok') this.cuentaFolio.list.push(par)
+			if (resultado.message==='ok') CuentaFolio.push({...par})
 			arrayAux.shift()
 		}
 

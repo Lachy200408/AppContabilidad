@@ -4,6 +4,7 @@ import { Validations } from "./Validations.js"
 import { ArrayAsientos } from "./ArrayAsientos.js"
 import { Tbody } from "./Tbody.js"
 import { Reset } from "./Reset.js"
+import { CuentaFolio } from "./CuentaFolio.js"
 
 class HandlerFunctions {
 	//* Función controladoras del formulario
@@ -166,6 +167,7 @@ class HandlerFunctions {
 		
 		ArrayAsientos.remove(currentNumOp-1)
 		Tbody.numOp.value--
+		CuentaFolio.remove([...ArrayAsientos.get()])
 	}
 }
 
