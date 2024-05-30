@@ -17,6 +17,8 @@ export class Listeners {
 		document.querySelector('.dlHoja').addEventListener('click', Handlers.dlHoja, false)
 		//* Colocar listener de boton de remover asiento
 		document.querySelectorAll('.rmBtn').forEach(btn => btn.addEventListener('click', Handlers.rmBtn, false))
+		//* Colocar listener de los inputs de cuentas
+		document.querySelectorAll('input[name="cuenta"]').forEach(inp => inp.addEventListener('change', Handlers.inCuenta, false))
 	}
 
 	static remove() {
@@ -34,6 +36,8 @@ export class Listeners {
 		document.querySelector('.dlHoja').removeEventListener('click', Handlers.dlHoja)
 		//* Quitar listener de boton de remover asiento
 		document.querySelectorAll('.rmBtn').forEach(btn => btn.removeEventListener('click', Handlers.rmBtn))
+		//* Quitar listener de los inputs de cuentas
+		document.querySelectorAll('input[name="cuenta"]').forEach(inp => inp.removeEventListener('change', Handlers.inCuenta))
 	}
 
 	static reset() {
