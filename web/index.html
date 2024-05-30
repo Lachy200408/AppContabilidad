@@ -71,14 +71,13 @@
 						</label>
 						<label for="folio" class="col-md-3 mb-2 form-label text-secondary">
 							Folio:
-							<input type="number" name="folio" id="folio" required class="form-control" min="1" step="1">
+							<input type="number" name="folio" required class="form-control" min="1" step="1">
 						</label>
             <label class="col-md-3 mb-2 form-label text-secondary">
               Debitando:
               <input
                 type="number"
                 name="debe"
-                id="debe"
                 placeholder="$0.00"
                 step="0.01"
                 class="form-control"
@@ -89,7 +88,6 @@
               <input
                 type="number"
                 name="haber"
-                id="haber"
                 placeholder="$0.00"
                 step="0.01"
                 class="form-control"
@@ -107,18 +105,17 @@
           <li class="cuenta row list-unstyled mb-5 border-primary rounded-3 border-1 border-bottom border-end border-start border-top p-2">
             <label class="form-label text-primary">
 							Cuenta:
-							<input type="text" list="cuentas" required class="mb-2 form-control form-text" placeholder="Cuenta..."/>
+							<input name="cuenta" type="text" list="cuentas" required class="mb-2 form-control form-text" placeholder="Cuenta..."/>
 						</label>
 						<label for="folio" class="col-md-3 mb-2 form-label text-secondary">
 							Folio:
-							<input type="number" name="folio" id="folio" required class="form-control" min="1" step="1">
+							<input type="number" name="folio" required class="form-control" min="1" step="1">
 						</label>
             <label class="col-md-3 mb-2 form-label text-secondary">
               Debitando:
               <input
                 type="number"
                 name="debe"
-                id="debe"
                 placeholder="$0.00"
                 step="0.01"
                 class="form-control"
@@ -129,7 +126,6 @@
               <input
                 type="number"
                 name="haber"
-                id="haber"
                 placeholder="$0.00"
                 step="0.01"
                 class="form-control"
@@ -163,6 +159,7 @@
           required
           class="form-control"
 					placeholder="Registrando..."
+					value="Registrando"
         ></textarea>
       </fieldset>
 

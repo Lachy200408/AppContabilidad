@@ -32,7 +32,15 @@ export class CuentaFolio extends Array{
 				this.global.splice(_index, 1)
 			}
 		})
+	}
 
-		console.log(this.global, indices)
+	static getFolio (cuenta) {
+		const index = this.global.findIndex(par => par.cuenta === cuenta)
+		return (index!==-1)? this.global[index].folio : undefined
+	}
+
+	static getCuenta (folio) {
+		const index = this.global.findIndex(par => par.folio === folio)
+		return this.global[index].cuenta
 	}
 }

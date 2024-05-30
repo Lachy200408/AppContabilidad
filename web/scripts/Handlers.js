@@ -23,18 +23,17 @@ class HandlerFunctions {
 		const htmlCuenta = `
 			<label class="form-label text-primary">
 				Cuenta:
-				<input type="text" list="cuentas" required class="mb-2 form-control form-text" placeholder="Cuenta..."/>
+				<input name="cuenta" type="text" list="cuentas" required class="mb-2 form-control form-text" placeholder="Cuenta..."/>
 			</label>
 			<label for="folio" class="col-md-3 mb-2 form-label text-secondary">
 				Folio:
-				<input type="number" name="folio" id="folio" required class="form-control" min="1" step="1">
+				<input type="number" name="folio" required class="form-control" min="1" step="1">
 			</label>
 			<label class="col-md-3 mb-2 form-label text-secondary">
 				Debitando:
 				<input
 					type="number"
 					name="debe"
-					id="debe"
 					placeholder="$0.00"
 					step="0.01"
 					class="form-control"
@@ -45,7 +44,6 @@ class HandlerFunctions {
 				<input
 					type="number"
 					name="haber"
-					id="haber"
 					placeholder="$0.00"
 					step="0.01"
 					class="form-control"
@@ -63,12 +61,12 @@ class HandlerFunctions {
 		const htmlSubCuenta = `
 			<label class="form-label text-secondary">
 				Subcuenta:
-				<input type="text" list="subcuentas" required class="form-control" placeholder="Subcuenta..."/>
+				<input name="subcuenta" type="text" list="subcuentas" required class="form-control" placeholder="Subcuenta..."/>
 			</label>
 
 			<label class="form-label text-secondary">
 				Parcial: 
-				<input type="number" name="parcial" id="parcial" required class="form-control" placeholder="$0.00" step="0.1"/>
+				<input type="number" name="parcial" required class="form-control" placeholder="$0.00" step="0.1"/>
 			</label>
 		`
 		const html = document.createElement("li")
@@ -169,6 +167,13 @@ class HandlerFunctions {
 		Tbody.numOp.value--
 		CuentaFolio.remove([...ArrayAsientos.get()])
 	}
+
+	static insertCuenta (event) {
+		const value = event.target.value,
+					folio = CuentaFolio.getFolio(value)
+
+		if (folio) event.target.parentElement.nextElementSibling.lastElementChild.value = folio
+	}
 }
 
 export class Handlers extends HandlerFunctions{
@@ -179,4 +184,5 @@ export class Handlers extends HandlerFunctions{
 	static clHoja = this.limpiarHoja
 	static dlHoja = this.descargarHoja
 	static rmBtn = this.removeAsiento
+	static inCuenta = this.insertCuenta
 }
