@@ -4,7 +4,7 @@ export class ArrayCuentas extends Array {
 	static global = []
 
 	static load () {
-		this.global = window.Array.from(document.querySelector("body>form>fieldset>ul").children).map((li) => {
+		this.global = window.Array.from(document.querySelector("body>main>form>fieldset>ul").children).map((li) => {
 			const liArray = window.Array.from(li.children),
 						cuenta = liArray[0].lastElementChild.value,
 						folio = +liArray[1].lastElementChild.value, 

@@ -30,7 +30,7 @@ export class Tbody {
 				//* Colocar el signo de peso
 				else if (_index===3 && item!=='') return this.cells('$'+item)
 				else if	((_index===4 || _index===5) &&
-									this.numOp.value===1 && 
+									numOp===1 && 
 									item!=='' && 
 									!((_index===4 && registro[0][4]!=='' && index!=0) ||
 										(_index===5 && registro[0][5]!=='' && index!=0))) return this.cells('$'+item)
