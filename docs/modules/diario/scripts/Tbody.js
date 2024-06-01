@@ -6,21 +6,14 @@ export class Tbody {
 		}
 	}
 
-	static numOp = {
-		value: 0,
-		reset: function () {
-			this.value = 0
-		}
-	}
-
-	static get (registro) {
+	static get (registro, numOp) {
 		let arrayTr = []
 
 		//* Insertar la fila de numero de operaciones
 		this.rmBtn.initBtn()
 
 		arrayTr.push(this.row(
-			this.cells(this.rmBtn.html.outerHTML) + this.cells(`Operacion No.${++this.numOp.value}`) + this.cells('') + this.cells('') + this.cells('') + this.cells(''),
+			this.cells(this.rmBtn.html.outerHTML) + this.cells(`Operacion No.${numOp}`) + this.cells('') + this.cells('') + this.cells('') + this.cells(''),
 			true
 		))
 
@@ -37,7 +30,7 @@ export class Tbody {
 				//* Colocar el signo de peso
 				else if (_index===3 && item!=='') return this.cells('$'+item)
 				else if	((_index===4 || _index===5) &&
-									this.numOp.value===1 && 
+									numOp===1 && 
 									item!=='' && 
 									!((_index===4 && registro[0][4]!=='' && index!=0) ||
 										(_index===5 && registro[0][5]!=='' && index!=0))) return this.cells('$'+item)

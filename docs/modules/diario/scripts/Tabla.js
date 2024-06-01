@@ -7,7 +7,7 @@ export class Tabla {
 
 	//* Inicializar
 	static init () {
-		this.html = document.querySelector('body>table>tbody')
+		this.html = document.querySelector('.hoja-diario>tbody')
 		this.customRows = [this.html.children[0], this.html.children[1], this.html.lastElementChild]
 	}
 
@@ -36,10 +36,9 @@ export class Tabla {
 	//* Insertar valores
 	static insert (array, balances) {
 		this.partialReset()
-		Tbody.numOp.reset()
 
-		array.forEach(_asiento => {
-			Tbody.get(_asiento).forEach(row => this.html.append(row))
+		array.forEach((_asiento, index) => {
+			Tbody.get(_asiento, index+1).forEach(row => this.html.append(row))
 		})
 
 		//* Situar los totales

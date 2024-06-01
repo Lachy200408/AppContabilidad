@@ -1,4 +1,4 @@
-import { CuentaFolio } from "./CuentaFolio.js"
+import { Diario } from "./Diario.js"
 
 export class Validations {
 	static validateDate(fecha) {
@@ -56,7 +56,7 @@ export class Validations {
 				}
 			}
 
-			for (const j of CuentaFolio.get()) {
+			for (const j of Diario.CuentaFolio.get()) {
 				if (par.cuenta===j.cuenta && par.folio!==j.folio) {
 					resultado.message = `La cuenta ${par.cuenta} ya tiene el folio ${j.folio} en el diario.`
 				} 
@@ -67,7 +67,7 @@ export class Validations {
 					break
 				}
 			}
-			if (resultado.message==='ok') CuentaFolio.push({...par})
+			if (resultado.message==='ok') Diario.CuentaFolio.push({...par})
 			arrayAux.shift()
 		}
 

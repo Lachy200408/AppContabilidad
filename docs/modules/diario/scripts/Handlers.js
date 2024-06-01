@@ -1,10 +1,4 @@
-import { Listeners } from "./Listeners.js"
-import { ArrayCuentas } from "./ArrayCuentas.js"
-import { Validations } from "./Validations.js"
-import { ArrayAsientos } from "./ArrayAsientos.js"
-import { Tbody } from "./Tbody.js"
-import { Reset } from "./Reset.js"
-import { CuentaFolio } from "./CuentaFolio.js"
+import { Diario } from "./Diario.js"
 
 class HandlerFunctions {
 	//* Función controladoras del formulario
@@ -16,7 +10,7 @@ class HandlerFunctions {
 
 		//* Selecciono el elemento correcto dependiendo del boton
 		const list = isCuenta
-			? document.querySelector("body>form>fieldset>ul")
+			? document.querySelector(".form-diario>fieldset>ul")
 			: event.target.parentElement.children[1]
 
 		//* Html de los items
@@ -70,12 +64,13 @@ class HandlerFunctions {
 			</label>
 		`
 		const html = document.createElement("li")
-		html.className = itemKind + ((isCuenta)? " list-unstyled row mb-5 border-primary rounded-3 border-1 border-bottom border-end border-start border-top p-2" : " list-unstyled")
+		html.className = itemKind + ((isCuenta)? " cuenta row list-unstyled mb-5 border-primary rounded-3 border p-3 shadow" : " list-unstyled")
 		html.innerHTML = isCuenta? htmlCuenta : htmlSubCuenta
 
 		if (event.target.innerText === "+") {
 			list.appendChild(html)
-		} else {
+		}
+		else {
 			const length = list.children.length
 
 			//* Desactivar boton cuando queden dos cuentas y 0 subcuentas
@@ -85,7 +80,7 @@ class HandlerFunctions {
 		}
 
 		//* Resetear los listeners
-		Listeners.reset()
+		Diario.Listeners.reset()
 	}
 
 	static handlerBalances (event) {
@@ -99,51 +94,58 @@ class HandlerFunctions {
 
 	static submitForm (event) {
 		event.preventDefault()
-		const form = document.querySelector("body>form")
+		const form = document.querySelector(".form-diario")
 
 		//* Tomar valores del formulario
-		ArrayCuentas.load()
+		Diario.ArrayCuentas.load()
 		const fecha = String(form.fecha.value)
 		const detalle = form.detalle.value
 
 		//* Validar
-		const err = Validations.init(fecha, detalle, [...ArrayCuentas.get()])
+		const err = Diario.Validations.init(
+			fecha,
+			detalle,
+			[...Diario.ArrayCuentas.get()]
+		)
 		if (err) {
 			alert('Ha ocurrido un problema: \n' + err)
 			return
 		}
 
 		//* Formar el registro
-		ArrayAsientos.insert(fecha, detalle, [...ArrayCuentas.get()])
+		Diario.Asientos.insert(
+			fecha,
+			detalle,
+			[...Diario.ArrayCuentas.get()]
+		)
 
 		alert('Se ha registrado exitosamente.')
 	}
-
 
 	//* Funciones controladoras de la hoja de la tabla
 	static toggleHoja (event) {
 		const boton = event.target
 		boton.innerText = (boton.innerText === 'Ver Hoja')? 'Ver Formulario' : 'Ver Hoja'
 		
-		const vistas = [document.querySelector('body>form'), document.querySelector('body>table')]
+		const vistas = [document.querySelector('.form-diario'), document.querySelector('.hoja-diario')]
 		vistas.forEach(vista => {
 			if (vista.classList.contains('d-none')) vista.classList.remove('d-none')
 			else vista.classList.add('d-none')
 		})
 
-		Listeners.reset()
+		Diario.Listeners.reset()
 	}
 
 	static limpiarHoja() {
-		Reset.hojaDiario()
+		Diario.Reset.hojaDiario()
 	}
 
 	static descargarHoja() {
-		if (!ArrayAsientos.get().length>0) return
+		if (!Diario.Asientos.get().length>0) return
 		
 		fetch('https://api-app-contabilidad.onrender.com/downloadBook', {
 			method: 'POST',
-			body: ArrayAsientos.get().join(';')
+			body: Diario.Asientos.get().join(';')
 		})
 		.then(res => res.blob())
 		.then(dataBlob => {
@@ -163,14 +165,13 @@ class HandlerFunctions {
 					textOperacion = btn.parentElement.nextElementSibling.innerText,
 					currentNumOp = textOperacion.charAt(textOperacion.length-1)
 		
-		ArrayAsientos.remove(currentNumOp-1)
-		Tbody.numOp.value--
-		CuentaFolio.remove([...ArrayAsientos.get()])
+		Diario.Asientos.remove(currentNumOp-1)
+		Diario.CuentaFolio.remove([...Diario.Asientos.get()])
 	}
 
 	static insertCuenta (event) {
 		const value = event.target.value,
-					folio = CuentaFolio.getFolio(value)
+					folio = Diario.CuentaFolio.getFolio(value)
 
 		if (folio) event.target.parentElement.nextElementSibling.lastElementChild.value = folio
 	}
