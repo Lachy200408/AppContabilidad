@@ -6,21 +6,14 @@ export class Tbody {
 		}
 	}
 
-	static numOp = {
-		value: 0,
-		reset: function () {
-			this.value = 0
-		}
-	}
-
-	static get (registro) {
+	static get (registro, numOp) {
 		let arrayTr = []
 
 		//* Insertar la fila de numero de operaciones
 		this.rmBtn.initBtn()
 
 		arrayTr.push(this.row(
-			this.cells(this.rmBtn.html.outerHTML) + this.cells(`Operacion No.${++this.numOp.value}`) + this.cells('') + this.cells('') + this.cells('') + this.cells(''),
+			this.cells(this.rmBtn.html.outerHTML) + this.cells(`Operacion No.${numOp}`) + this.cells('') + this.cells('') + this.cells('') + this.cells(''),
 			true
 		))
 
