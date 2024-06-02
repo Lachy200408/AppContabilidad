@@ -15,6 +15,10 @@ class HandlerFunctions {
 
 		//* Html de los items
 		const htmlCuenta = `
+			<fieldset class="btn-group mb-3 d-flex justify-content-end align-items-center gap-2 btn-reorder-container">
+				<button class="btn bg-primary flex-grow-0 border border-1 rounded-3 btn-reorder-up" style="clip-path: polygon(0px 32px, 16px 0px, 32px 32px); width: 32px; height: 32px;"></button>
+				<button class="btn bg-primary flex-grow-0 border border-1 rounded-3 btn-reorder-down" style="clip-path: polygon(0px 0px, 32px 0px, 16px 32px); width: 32px; height: 32px;"></button>
+			</fieldset>
 			<label class="form-label text-primary">
 				Cuenta:
 				<input name="cuenta" type="text" list="cuentas" required class="mb-2 form-control form-text" placeholder="Cuenta..."/>
@@ -83,6 +87,56 @@ class HandlerFunctions {
 		Diario.Listeners.reset()
 	}
 
+	static reorderCuentas (event) {
+		event.preventDefault()
+
+		const li = event.target.parentElement.parentElement,
+					ul = li.parentElement,
+					movement = event.target.classList.contains('btn-reorder-up')? 'up' : 'down'
+		let arrayLi = []
+
+		//* Variable que indentifica si se produjo en cambio hacia abajo
+		let isDown = false
+		//* Tomar todos los li de la ul
+		Array.from(ul.children).forEach((_li, index, arr) => {
+			if (isDown) {
+				isDown = false
+				return
+			}
+
+			arrayLi.push(_li)
+
+			if ((_li===li && index===0 && movement==='up') || (_li===li && index===arr.length-1 && movement==='down')) return
+			
+			if (_li===li && movement==='up') {
+				arrayLi.pop()
+				const auxLi = arrayLi[index-1]
+				arrayLi[index-1] = li
+				arrayLi.push(auxLi)
+
+				return
+			}
+			
+			if (_li===li && movement==='down') {
+				arrayLi.pop()
+				arrayLi.push(arr[index+1])
+				arrayLi.push(li)
+				isDown = true
+
+				return
+			}
+		})
+
+		ul.innerHTML = ''
+		
+		arrayLi.forEach(_li => ul.append(_li))
+	}
+
+	static limpiarForm () {
+		document.querySelectorAll('form input').forEach(inp => inp.value = '')
+		document.querySelector('textarea').value = ''
+	}
+
 	static handlerBalances (event) {
 		const input = event.target
 		
@@ -127,6 +181,9 @@ class HandlerFunctions {
 		const boton = event.target
 		boton.innerText = (boton.innerText === 'Ver Hoja')? 'Ver Formulario' : 'Ver Hoja'
 		
+		if (boton.innerText === 'Ver Formulario') document.querySelector('.limpiar-form').classList.add('d-none')
+		else document.querySelector('.limpiar-form').classList.remove('d-none')
+
 		const vistas = [document.querySelector('.form-diario'), document.querySelector('.hoja-diario')]
 		vistas.forEach(vista => {
 			if (vista.classList.contains('d-none')) vista.classList.remove('d-none')
@@ -169,7 +226,7 @@ class HandlerFunctions {
 		Diario.CuentaFolio.remove([...Diario.Asientos.get()])
 	}
 
-	static insertCuenta (event) {
+	static insertFolio (event) {
 		const value = event.target.value,
 					folio = Diario.CuentaFolio.getFolio(value)
 
@@ -178,12 +235,14 @@ class HandlerFunctions {
 }
 
 export class Handlers extends HandlerFunctions{
-	static form = this.submitForm
-	static cuentas = this.modifyCuentas
-	static saldos = this.handlerBalances
-	static chHoja = this.toggleHoja
-	static clHoja = this.limpiarHoja
-	static dlHoja = this.descargarHoja
-	static rmBtn = this.removeAsiento
-	static inCuenta = this.insertCuenta
+	static form = super.submitForm
+	static cuentas = super.modifyCuentas
+	static reCuentas = super.reorderCuentas
+	static limpiar = super.limpiarForm
+	static saldos = super.handlerBalances
+	static chHoja = super.toggleHoja
+	static clHoja = super.limpiarHoja
+	static dlHoja = super.descargarHoja
+	static rmBtn = super.removeAsiento
+	static inFolio = super.insertFolio
 }
