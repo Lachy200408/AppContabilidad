@@ -1,6 +1,6 @@
 //* Clases globales
 
-import { Global } from "/scripts/Global.js"
+import { Global } from "/scripts/global/Global.js"
 
 //* Clases locales 
 
@@ -9,7 +9,6 @@ import { Listeners } from "./Listeners.js"
 import { Handlers } from "./Handlers.js"
 import { ArrayCuentas } from "./ArrayCuentas.js"
 import { Reset } from "./Reset.js"
-import { CuentaFolio } from "./CuentaFolio.js"
 import { Validations } from "./Validations.js"
 
 export class Diario {
@@ -25,7 +24,7 @@ export class Diario {
 	static ArrayCuentas = ArrayCuentas
 	static Asientos = Global.ArrayAsientos
 	static Reset = Reset
-	static CuentaFolio = CuentaFolio
+	static CuentaFolio = Global.CuentaFolio
 	static Validations = Validations
 	/*
 	* Esta es la funcion que inicializa el modulo Diario
@@ -44,19 +43,9 @@ export class Diario {
 		//* Iniciar los datos y el formulario
 		this.Tabla.init()
 		this.Listeners.set()
+		this.Tabla.actualizar()
 
 		//* Event listener de actualizar la tabla
-		window.addEventListener('regChange', function () {
-			if (!Diario.Tabla.isNull()) {
-				//* Refrescar la tabla
-				Diario.Tabla.insert(
-					[...Diario.Asientos.get()],
-					Diario.Asientos.getBalances()
-				)
-				
-				//* Resetear los listeners
-				Diario.Listeners.reset()
-			}
-		}, false)
+		window.addEventListener('regChange', this.Tabla.actualizar, false)
 	}
 }

@@ -1,3 +1,4 @@
+import { Diario } from "./Diario.js"
 import { Tbody } from "./Tbody.js"
 
 export class Tabla {
@@ -45,5 +46,18 @@ export class Tabla {
 		this.customRows[2].children[4].innerHTML = '$'+balances.debe.toFixed(2)
 		this.customRows[2].children[5].innerHTML = '$'+balances.haber.toFixed(2)
 		this.html.append(this.customRows[2])
+	}
+
+	static actualizar () {
+		if (!Tabla.isNull()) {
+			//* Refrescar la tabla
+			Tabla.insert(
+				[...Diario.Asientos.get()],
+				Diario.Asientos.getBalances()
+			)
+			
+			//* Resetear los listeners
+			Diario.Listeners.reset()
+		}
 	}
 }
