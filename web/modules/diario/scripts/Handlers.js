@@ -162,7 +162,7 @@ class HandlerFunctions {
 			[...Diario.ArrayCuentas.get()]
 		)
 		if (err) {
-			alert('Ha ocurrido un problema: \n' + err)
+			Diario.Modal.error('Ha ocurrido un problema con su formulario:', err)
 			return
 		}
 
@@ -173,7 +173,7 @@ class HandlerFunctions {
 			[...Diario.ArrayCuentas.get()]
 		)
 
-		alert('Se ha registrado exitosamente.')
+		Diario.Modal.sucess('Correcto:', 'Se ha registrado exitosamente.')
 	}
 
 	//* Funciones controladoras de la hoja de la tabla
