@@ -48,13 +48,12 @@ export class ArrayAsientos extends Array {
 		})
 	}
 
-	//! Arreglar urgente
 	static reorder (index, newIndex) {
 		if (this.global.length <= 1) return
-		if (newIndex === 0 || newIndex === this.global.length) return
+		if (newIndex === -1 || newIndex === this.global.length) return
 
-		const fecha = this.global[index][1][0],
-					newFecha = this.global[newIndex][1][0]
+		const fecha = this.global[index][0][0],
+					newFecha = this.global[newIndex][0][0]
 
 		if (fecha !== newFecha) return
 

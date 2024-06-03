@@ -1,19 +1,36 @@
+class Button {
+	constructor (className) {
+		this.html = document.createElement('button')
+		this.html.className = className
+		this.html.style.width = '32px'
+		this.html.style.height = '32px'
+		
+		if (className.slice(-3) === 'Btn') return
+		if (className.slice(-2) === 'up') this.html.style.clipPath = 'polygon(0px 32px, 16px 0px, 32px 32px)'
+		else this.html.style.clipPath = 'polygon(0px 0px, 32px 0px, 16px 32px)'
+	}
+}
+
 export class Tbody {
-	static rmBtn = {
-		html: document.createElement('button'),
-		initBtn: function () {
-			this.html.className = 'btn btn-close p-2 mx-auto d-block rmBtn'
-		}
+	static rmBtn = new Button('btn btn-close mx-auto d-block rmBtn')
+
+	static reBtn = {
+		up: new Button('btn bg-white flex-grow-0 mx-auto d-block btn-reorder-asiento-up'),
+		down: new Button('btn bg-white flex-grow-0 mx-auto d-block btn-reorder-asiento-down')
 	}
 
 	static get (registro, numOp) {
 		let arrayTr = []
 
 		//* Insertar la fila de numero de operaciones
-		this.rmBtn.initBtn()
 
 		arrayTr.push(this.row(
-			this.cells(this.rmBtn.html.outerHTML) + this.cells(`Operacion No.${numOp}`) + this.cells('') + this.cells('') + this.cells('') + this.cells(''),
+			this.cells(this.rmBtn.html.outerHTML) +
+			this.cells(`Operacion No.${numOp}`) +
+			this.cells('') +
+			this.cells('') +
+			this.cells(this.reBtn.up.html.outerHTML) +
+			this.cells(this.reBtn.down.html.outerHTML),
 			true
 		))
 
