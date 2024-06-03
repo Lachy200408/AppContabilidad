@@ -48,6 +48,42 @@ export class ArrayAsientos extends Array {
 		})
 	}
 
+	//! Arreglar urgente
+	static reorder (index, newIndex) {
+		if (this.global.length <= 1) return
+		if (newIndex === 0 || newIndex === this.global.length) return
+
+		const fecha = this.global[index][1][0],
+					newFecha = this.global[newIndex][1][0]
+
+		if (fecha !== newFecha) return
+
+		let arrAux = [], changed = false
+		this.global.forEach((asiento, _index, arr) => {
+			if (changed) {
+				changed = false
+				return
+			}
+
+			arrAux.push([...asiento])
+
+			if ((_index === newIndex && newIndex === index-1) ||
+					(_index === index && newIndex === index+1)) {
+				arrAux.pop()
+				arrAux.push([...arr[_index+1]])
+				arrAux.push([...asiento])
+				
+				changed = true
+				return
+			}
+		})
+
+		if (arrAux.length !== this.global.length) {console.error('BAD: ', arrAux); return}
+
+		this.global = [...arrAux]
+		this.dispatchChange()
+	}
+
 	static insert (fecha, detalle, arrayCuentas) {
 		let asiento = []
 

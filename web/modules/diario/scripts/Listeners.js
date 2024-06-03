@@ -19,8 +19,10 @@ export class Listeners {
 		document.querySelectorAll('.rmBtn').forEach(btn => btn.addEventListener('click', Diario.Handlers.rmBtn, false))
 		//* Colocar listener de los inputs de cuentas
 		document.querySelectorAll('input[name="cuenta"]').forEach(inp => inp.addEventListener('blur', Diario.Handlers.inFolio, false))
-		//* Colocar listener de los botones de ordenar de cuentas
+		//* Colocar listener de los botones de ordenar las cuentas
 		document.querySelectorAll('.btn-reorder-container .btn').forEach(btn => btn.addEventListener('click', Diario.Handlers.reCuentas, false))
+		//* Colocar listener de los botones de ordenar los asientos de la tabla
+		document.querySelectorAll('.btn-reorder-asiento-up, .btn-reorder-asiento-down').forEach(btn => btn.addEventListener('click', Diario.Handlers.reBtn, false))
 		//* Colocar listener del boton de limpiar el formulario
 		document.querySelector('.limpiar-form').addEventListener('click', Diario.Handlers.limpiar, false)
 	}
@@ -44,6 +46,8 @@ export class Listeners {
 		document.querySelectorAll('input[name="cuenta"]').forEach(inp => inp.removeEventListener('blur', Diario.Handlers.inFolio))
 		//* Quitar listener de los botones de ordenar de cuentas
 		document.querySelectorAll('.btn-reorder-container .btn').forEach(btn => btn.removeEventListener('click', Diario.Handlers.reCuentas))
+		//* Colocar listener de los botones de ordenar los asientos de la tabla
+		document.querySelectorAll('.btn-reorder-asiento-up, .btn-reorder-asiento-down').forEach(btn => btn.removeEventListener('click', Diario.Handlers.reBtn))
 		//* Quitar listener del boton de limpiar el formulario
 		document.querySelector('.limpiar-form').removeEventListener('click', Diario.Handlers.limpiar)
 	}

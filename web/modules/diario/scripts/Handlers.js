@@ -226,6 +226,13 @@ class HandlerFunctions {
 		Diario.CuentaFolio.remove([...Diario.Asientos.get()])
 	}
 
+	static reorderAsientos (event) {
+		const index = +event.target.parentElement.parentElement.children[1].innerText.slice(-1),
+					movement = event.target.classList.contains('btn-reorder-asiento-up')? 'up' : 'down'
+		
+		Diario.Asientos.reorder(index-1, (movement==='up')? index-2 : index)
+	}
+
 	static insertFolio (event) {
 		const value = event.target.value,
 					folio = Diario.CuentaFolio.getFolio(value)
@@ -244,5 +251,6 @@ export class Handlers extends HandlerFunctions{
 	static clHoja = super.limpiarHoja
 	static dlHoja = super.descargarHoja
 	static rmBtn = super.removeAsiento
+	static reBtn = super.reorderAsientos
 	static inFolio = super.insertFolio
 }
