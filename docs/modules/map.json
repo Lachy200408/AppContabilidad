@@ -1,7 +1,7 @@
 [
 	{
 		"module": "Diario",
-		"path": "/modules/diario/",
-		"poster": "/assets/images/diario-poster.png"
+		"path": "../../diario/",
+		"poster": "../../../assets/images/diario-poster.png"
 	}
 ]

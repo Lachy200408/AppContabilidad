@@ -1,6 +1,6 @@
 //* Clases globales
 
-import { Modulos } from "/scripts/Modulos.js"
+import { Modulos } from "../../../scripts/Modulos.js"
 
 //* Clases locales
 
