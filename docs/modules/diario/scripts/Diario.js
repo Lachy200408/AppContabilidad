@@ -10,6 +10,7 @@ import { Handlers } from "./Handlers.js"
 import { ArrayCuentas } from "./ArrayCuentas.js"
 import { Reset } from "./Reset.js"
 import { Validations } from "./Validations.js"
+import { Modal } from "./Modal.js"
 
 export class Diario {
 	/*
@@ -26,6 +27,7 @@ export class Diario {
 	static Reset = Reset
 	static CuentaFolio = Global.CuentaFolio
 	static Validations = Validations
+	static Modal = Modal
 	/*
 	* Esta es la funcion que inicializa el modulo Diario
 	*/

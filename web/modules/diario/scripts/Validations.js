@@ -115,6 +115,6 @@ export class Validations {
 			})
 		})
 
-		return errors.join('\n')
+		return errors.join('. ')
 	}
 }
