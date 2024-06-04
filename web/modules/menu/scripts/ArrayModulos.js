@@ -6,7 +6,7 @@ export class ArrayModulos extends Array {
 	static async load (callback=(a)=>{}) {
 		this.reset()
 
-		await fetch('/modules/map.json')
+		await fetch('../../map.json')
 					.then(res => res.json())
 					.then(map => {
 						map.forEach(obj => {

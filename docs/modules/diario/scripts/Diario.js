@@ -33,7 +33,7 @@ export class Diario {
 	*/
 	static async init () {
 		//* Cargo y muestro el html
-		await fetch('/modules/diario/index.html')
+		await fetch('../index.html')
 					.then(res => res.text())
 					.then(html => {
 						const main = document.createElement('main')
