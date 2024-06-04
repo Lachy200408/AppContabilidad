@@ -1,5 +1,5 @@
-import { Menu } from '/modules/menu/scripts/Menu.js'
-import { Diario } from '/modules/diario/scripts/Diario.js'
+import { Menu } from '../modules/menu/scripts/Menu.js'
+import { Diario } from '../modules/diario/scripts/Diario.js'
 
 export class Modulos {
 	static cargar (element) {

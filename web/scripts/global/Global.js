@@ -1,6 +1,6 @@
-import { ArrayAsientos } from "/scripts/global/ArrayAsientos.js"
-import { CuentaFolio } from "/scripts/global/CuentaFolio.js"
-import { Session } from "/scripts/global/Session.js"
+import { ArrayAsientos } from "./ArrayAsientos.js"
+import { CuentaFolio } from "./CuentaFolio.js"
+import { Session } from "./Session.js"
 
 export class Global {
 	static ArrayAsientos = ArrayAsientos
