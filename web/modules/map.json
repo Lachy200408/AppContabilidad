@@ -2,6 +2,6 @@
 	{
 		"module": "Diario",
 		"path": "../../diario/",
-		"poster": "../../../assets/images/diario-poster.png"
+		"poster": "../../assets/images/diario-poster.png"
 	}
 ]
