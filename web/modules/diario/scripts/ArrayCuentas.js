@@ -1,4 +1,4 @@
-import { Array } from "../../../scripts/global/Array.js"
+import { Array } from "/scripts/global/Array.js"
 
 export class ArrayCuentas extends Array {
 	static global = []

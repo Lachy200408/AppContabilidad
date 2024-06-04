@@ -1,4 +1,4 @@
-import { Array } from "../../../scripts/global/Array"
+import { Array } from "/scripts/global/Array.js"
 
 export class ArrayModulos extends Array {
 	static global = []
@@ -6,7 +6,7 @@ export class ArrayModulos extends Array {
 	static async load (callback=(a)=>{}) {
 		this.reset()
 
-		await fetch('../../map.json')
+		await fetch('/modules/map.json')
 					.then(res => res.json())
 					.then(map => {
 						map.forEach(obj => {
