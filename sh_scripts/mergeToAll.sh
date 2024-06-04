@@ -4,3 +4,4 @@ git switch features
 git merge main
 git switch bugs
 git merge main
+git switch main
