@@ -6,11 +6,11 @@ class HandlerFunctions {
 
 		const section = document.createElement('section')
 		section.className = "container-fluid d-grid modulos position-relative align-items-center row-cols-lg-4 row-cols-md-1"
-
-		this.loadMenu()
-
+		
 		document.querySelector('main').remove()
 		document.body.append(section)
+
+		this.loadMenu()
 	}
 
 	static loadMenu () {
